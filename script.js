@@ -223,7 +223,7 @@ function updatePaginationControls() {
     prevButton.disabled = currentPage === 1;
     nextButton.disabled = currentPage === totalPages;
 
-    pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
 
     // Скрываем пагинацию, если всего одна страница
     paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
