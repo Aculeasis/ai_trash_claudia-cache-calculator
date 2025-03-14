@@ -3,83 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор выгоды от кэширования Claudia</title>
+    <title>Claude Cache Efficiency Calculator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Калькулятор выгоды от кэширования Claudia</h1>
+    <h1>Claude Cache Efficiency Calculator</h1>
     
     <div class="container">
         <div class="form-section">
-            <h2>Параметры</h2>
+            <h2>Parameters</h2>
             <form id="calculatorForm">
-                <div class="input-group" data-unit="токены">
-                    <label for="promptSize">Начальный размер промта:</label>
+                <div class="input-group" data-unit="tokens">
+                    <label for="promptSize">Initial Prompt Size:</label>
                     <input type="number" id="promptSize" value="2000" min="1" required>
                 </div>
                 
-                <div class="input-group" data-unit="токены">
-                    <label for="maxPromptSize">Максимальный размер промта:</label>
+                <div class="input-group" data-unit="tokens">
+                    <label for="maxPromptSize">Maximum Prompt Size:</label>
                     <input type="number" id="maxPromptSize" value="10000" min="1000" required>
                 </div>
                 
-                <div class="input-group" data-unit="токены">
-                    <label for="trimmedSize">Размер после обрезки:</label>
+                <div class="input-group" data-unit="tokens">
+                    <label for="trimmedSize">Size After Trimming:</label>
                     <input type="number" id="trimmedSize" value="5000" min="1000" required>
                 </div>
                 
-                <div class="input-group" data-unit="токены">
-                    <label for="modelResponseSize">Размер ответа модели:</label>
+                <div class="input-group" data-unit="tokens">
+                    <label for="modelResponseSize">Model Response Size:</label>
                     <input type="number" id="modelResponseSize" value="250" min="1" required>
                 </div>
                 
-                <div class="input-group" data-unit="токены">
-                    <label for="userMessageSize">Размер сообщения пользователя:</label>
+                <div class="input-group" data-unit="tokens">
+                    <label for="userMessageSize">User Message Size:</label>
                     <input type="number" id="userMessageSize" value="20" min="1" required>
                 </div>
                 
                 <div class="input-group">
-                    <label for="iterations">Количество итераций:</label>
+                    <label for="iterations">Number of Iterations:</label>
                     <input type="number" id="iterations" value="50" min="1" max="1000" required>
                     
                     <div class="checkbox-container">
                         <input type="checkbox" id="calculateToMax" name="calculateToMax" checked>
-                        <label for="calculateToMax">Рассчитать до максимального размера промта (без обрезок)</label>
+                        <label for="calculateToMax">Calculate up to maximum prompt size (without trimming)</label>
                     </div>
                 </div>
                 
                 <div class="input-group" data-unit="$">
-                    <label for="sendingCost">Стоимость отправки (за 1M токенов):</label>
+                    <label for="sendingCost">Input Cost (per 1M tokens):</label>
                     <input type="number" id="sendingCost" value="3" min="0.01" step="0.01" required>
                 </div>
                 
                 <div class="input-group" data-unit="$">
-                    <label for="modelCost">Стоимость ответа модели (за 1M токенов):</label>
+                    <label for="modelCost">Output Cost (per 1M tokens):</label>
                     <input type="number" id="modelCost" value="15" min="0.01" step="0.01" required>
                 </div>
                 
                 <div class="input-group" data-unit="x">
-                    <label for="cacheMissMultiplier">Множитель при промахе кэша:</label>
+                    <label for="cacheMissMultiplier">Cache Miss Multiplier:</label>
                     <input type="number" id="cacheMissMultiplier" value="1.25" min="0.01" step="0.01" required>
                 </div>
                 
                 <div class="input-group" data-unit="x">
-                    <label for="cacheHitMultiplier">Множитель при попадании в кэш:</label>
+                    <label for="cacheHitMultiplier">Cache Hit Multiplier:</label>
                     <input type="number" id="cacheHitMultiplier" value="0.1" min="0.01" step="0.01" required>
                 </div>
                 
                 <div class="button-container">
-                    <button type="button" class="reset-button" onclick="resetParameters()">Сбросить</button>
-                    <button type="button" class="calculate-button" onclick="calculateResults()">Рассчитать</button>
+                    <button type="button" class="reset-button" onclick="resetParameters()">Reset</button>
+                    <button type="button" class="calculate-button" onclick="calculateResults()">Calculate</button>
                 </div>
             </form>
         </div>
         
         <div class="results-section">
-            <h2>Результаты</h2>
+            <h2>Results</h2>
             <div id="loading">
                 <div class="spinner"></div>
-                <p>Выполняем расчеты...</p>
+                <p>Calculating...</p>
             </div>
             <div id="summary" class="summary" style="display: none;"></div>
             
@@ -87,16 +87,16 @@
                 <table id="resultsTable">
                     <thead>
                         <tr>
-                            <th>Итерация</th>
-                            <th>Размер промта</th>
-                            <th>С кэшем ($)</th>
-                            <th>Без кэша ($)</th>
-                            <th>Разница ($)</th>
-                            <th>Разница (%)</th>
+                            <th>Iteration</th>
+                            <th>Prompt Size</th>
+                            <th>With Cache ($)</th>
+                            <th>Without Cache ($)</th>
+                            <th>Difference ($)</th>
+                            <th>Difference (%)</th>
                         </tr>
                     </thead>
                     <tbody id="resultsBody">
-                        <!-- Результаты будут здесь -->
+                        <!-- Results will appear here -->
                     </tbody>
                 </table>
             </div>
@@ -104,7 +104,7 @@
     </div>
     
     <div class="footer">
-        <p>Калькулятор помогает оценить экономическую выгоду от использования кэша при общении с моделями Claudia.</p>
+        <p>This calculator helps evaluate the economic benefits of using caching when communicating with Claude models.</p>
         <p class="repo-link">
             <a href="https://github.com/aculeasis/ai_trash_claudia-cache-calculator" target="_blank" rel="noopener noreferrer">
                 <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
