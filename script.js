@@ -13,6 +13,11 @@ const defaultParams = {
     calculateToMax: true
 };
 
+// Глобальные переменные для пагинации
+let currentPage = 1;
+const rowsPerPage = 50;
+let allResults = [];
+
 // Функция сброса параметров на дефолтные
 function resetParameters() {
     document.getElementById('promptSize').value = defaultParams.promptSize;
@@ -124,7 +129,7 @@ function calculateResults() {
                 costWithCache: iterCostWithCache,
                 costWithoutCache: iterCostNoCache,
                 difference: difference,
-                differencePercent: differencePercent
+                differencePercent: differencePercent.toFixed(4)
             });
             
             // Отслеживание общей стоимости
@@ -160,10 +165,20 @@ function calculateResults() {
 }
 
 function displayResults(results) {
+    allResults = results;
+    displayPage(1);
+}
+
+function displayPage(page) {
+    currentPage = page;
     const tableBody = document.getElementById('resultsBody');
     tableBody.innerHTML = '';
     
-    results.forEach(result => {
+    const start = (page - 1) * rowsPerPage;
+    const end = start + rowsPerPage;
+    const paginatedResults = allResults.slice(start, end);
+    
+    paginatedResults.forEach(result => {
         const row = document.createElement('tr');
         
         const iterationCell = document.createElement('td');
@@ -188,26 +203,77 @@ function displayResults(results) {
         row.appendChild(differenceCell);
         
         const differencePercentCell = document.createElement('td');
-        differencePercentCell.textContent = result.differencePercent.toFixed(2) + '%';
+        differencePercentCell.textContent = result.differencePercent + '%';
         differencePercentCell.className = result.differencePercent >= 0 ? 'positive' : 'negative';
         row.appendChild(differencePercentCell);
         
         tableBody.appendChild(row);
     });
+    
+    updatePaginationControls();
 }
+
+function updatePaginationControls() {
+    const totalPages = Math.ceil(allResults.length / rowsPerPage);
+    const prevButton = document.getElementById('prevPage');
+    const nextButton = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
+    const paginationContainer = document.querySelector('.pagination');
+
+    prevButton.disabled = currentPage === 1;
+    nextButton.disabled = currentPage === totalPages;
+
+    pageInfo.textContent = `Страница ${currentPage} из ${totalPages}`;
+
+    // Скрываем пагинацию, если всего одна страница
+    paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
+
+    // Добавляем номера страниц
+    const pageNumbersContainer = document.createElement('div');
+    pageNumbersContainer.className = 'page-numbers';
+    for (let i = 1; i <= totalPages; i++) {
+        const pageNumber = document.createElement('button');
+        pageNumber.textContent = i;
+        pageNumber.className = 'page-number';
+        pageNumber.disabled = (i === currentPage);
+        pageNumber.addEventListener('click', () => displayPage(i));
+        pageNumbersContainer.appendChild(pageNumber);
+    }
+
+    // Удаляем предыдущие номера страниц, если есть
+    const existingPageNumbers = document.querySelector('.page-numbers');
+    if (existingPageNumbers) {
+        paginationContainer.removeChild(existingPageNumbers);
+    }
+    paginationContainer.appendChild(pageNumbersContainer);
+}
+
+// Добавляем обработчики событий для кнопок пагинации
+document.getElementById('prevPage').addEventListener('click', () => {
+    if (currentPage > 1) {
+        displayPage(currentPage - 1);
+    }
+});
+
+document.getElementById('nextPage').addEventListener('click', () => {
+    const totalPages = Math.ceil(allResults.length / rowsPerPage);
+    if (currentPage < totalPages) {
+        displayPage(currentPage + 1);
+    }
+});
 
 function displaySummary(totalCostWithCache, totalCostWithoutCache, totalDifference, totalDifferencePercent, iterations) {
     const summaryDiv = document.getElementById('summary');
     summaryDiv.style.display = 'block';
     
     const summaryHTML = `
-        <h3>Итоговый результат:</h3>
-        <p>Общая стоимость с кэшем: <strong>$${totalCostWithCache.toFixed(8)}</strong></p>
-        <p>Общая стоимость без кэша: <strong>$${totalCostWithoutCache.toFixed(8)}</strong></p>
-        <p>Экономия: <strong class="${totalDifference >= 0 ? 'positive' : 'negative'}">
-            $${totalDifference.toFixed(8)} (${totalDifferencePercent.toFixed(2)}%)
+        <h3>Final Result:</h3>
+        <p>Total Cost with Cache: <strong>$${totalCostWithCache.toFixed(8)}</strong></p>
+        <p>Total Cost without Cache: <strong>$${totalCostWithoutCache.toFixed(8)}</strong></p>
+        <p>Savings: <strong class="${totalDifference >= 0 ? 'positive' : 'negative'}">
+            $${totalDifference.toFixed(8)} (${totalDifferencePercent.toFixed(4)}%)
         </strong></p>
-        <p>Количество итераций: <strong>${iterations}</strong></p>
+        <p>Number of Iterations: <strong>${iterations}</strong></p>
     `;
     
     summaryDiv.innerHTML = summaryHTML;
