@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор выгоды от кэширования Claudia</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Калькулятор выгоды от кэширования Claudia</h1>
+    
+    <div class="container">
+        <div class="form-section">
+            <h2>Параметры</h2>
+            <form id="calculatorForm">
+                <div class="input-group" data-unit="токены">
+                    <label for="promptSize">Начальный размер промта:</label>
+                    <input type="number" id="promptSize" value="2000" min="1" required>
+                </div>
+                
+                <div class="input-group" data-unit="токены">
+                    <label for="maxPromptSize">Максимальный размер промта:</label>
+                    <input type="number" id="maxPromptSize" value="10000" min="1000" required>
+                </div>
+                
+                <div class="input-group" data-unit="токены">
+                    <label for="trimmedSize">Размер после обрезки:</label>
+                    <input type="number" id="trimmedSize" value="5000" min="1000" required>
+                </div>
+                
+                <div class="input-group" data-unit="токены">
+                    <label for="modelResponseSize">Размер ответа модели:</label>
+                    <input type="number" id="modelResponseSize" value="250" min="1" required>
+                </div>
+                
+                <div class="input-group" data-unit="токены">
+                    <label for="userMessageSize">Размер сообщения пользователя:</label>
+                    <input type="number" id="userMessageSize" value="20" min="1" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="iterations">Количество итераций:</label>
+                    <input type="number" id="iterations" value="50" min="1" max="1000" required>
+                    
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="calculateToMax" name="calculateToMax" checked>
+                        <label for="calculateToMax">Рассчитать до максимального размера промта (без обрезок)</label>
+                    </div>
+                </div>
+                
+                <div class="input-group" data-unit="$">
+                    <label for="sendingCost">Стоимость отправки (за 1M токенов):</label>
+                    <input type="number" id="sendingCost" value="3" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="input-group" data-unit="$">
+                    <label for="modelCost">Стоимость ответа модели (за 1M токенов):</label>
+                    <input type="number" id="modelCost" value="15" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="input-group" data-unit="x">
+                    <label for="cacheMissMultiplier">Множитель при промахе кэша:</label>
+                    <input type="number" id="cacheMissMultiplier" value="1.25" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="input-group" data-unit="x">
+                    <label for="cacheHitMultiplier">Множитель при попадании в кэш:</label>
+                    <input type="number" id="cacheHitMultiplier" value="0.1" min="0.01" step="0.01" required>
+                </div>
+                
+                <div class="button-container">
+                    <button type="button" class="reset-button" onclick="resetParameters()">Сбросить</button>
+                    <button type="button" class="calculate-button" onclick="calculateResults()">Рассчитать</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="results-section">
+            <h2>Результаты</h2>
+            <div id="loading">
+                <div class="spinner"></div>
+                <p>Выполняем расчеты...</p>
+            </div>
+            <div id="summary" class="summary" style="display: none;"></div>
+            
+            <div class="table-container">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Итерация</th>
+                            <th>Размер промта</th>
+                            <th>С кэшем ($)</th>
+                            <th>Без кэша ($)</th>
+                            <th>Разница ($)</th>
+                            <th>Разница (%)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Результаты будут здесь -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>Калькулятор помогает оценить экономическую выгоду от использования кэша при общении с моделями Claudia.</p>
+        <p class="repo-link">
+            <a href="https://github.com/aculeasis/ai_trash_claudia-cache-calculator" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+                <span>ai_trash_claudia-cache-calculator</span>
+            </a>
+        </p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
