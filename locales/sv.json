@@ -1,0 +1,45 @@
+{
+    "title": "Claude Cache Effektivitetskalkylator",
+    "params": {
+        "title": "Parametrar",
+        "promptSize": "Initial Promptstorlek:",
+        "maxPromptSize": "Maximal Promptstorlek:",
+        "trimmedSize": "Storlek Efter Beskärning:",
+        "modelResponseSize": "Modellsvarstorlek:",
+        "userMessageSize": "Användarmeddelandestorlek:",
+        "iterations": "Antal Iterationer:",
+        "calculateToMax": "Beräkna upp till maximal promptstorlek (utan beskärning)",
+        "sendingCost": "Ingångskostnad (per 1M tokens):",
+        "modelCost": "Utgångskostnad (per 1M tokens):",
+        "cacheMissMultiplier": "Cache Miss Multiplikator:",
+        "cacheHitMultiplier": "Cache Hit Multiplikator:"
+    },
+    "buttons": {
+        "reset": "Återställ",
+        "calculate": "Beräkna",
+        "prevPage": "Tillbaka",
+        "nextPage": "Nästa"
+    },
+    "results": {
+        "title": "Resultat",
+        "calculating": "Beräknar...",
+        "iteration": "Iteration",
+        "promptSize": "Promptstorlek",
+        "withCache": "Med Cache ($)",
+        "withoutCache": "Utan Cache ($)",
+        "difference": "Skillnad ($)",
+        "differencePercent": "Skillnad (%)",
+        "page": "Sida",
+        "of": "/"
+    },
+    "summary": {
+        "title": "Sammanfattning",
+        "totalCostWithCache": "Total Kostnad Med Cache:",
+        "totalCostWithoutCache": "Total Kostnad Utan Cache:",
+        "savings": "Total Besparing:",
+        "iterations": "Totalt Antal Iterationer:"
+    },
+    "footer": {
+        "description": "Denna kalkylator hjälper dig att utvärdera de ekonomiska fördelarna med att använda cache när du kommunicerar med Claude-modeller."
+    }
+} 

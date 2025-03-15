@@ -1,0 +1,45 @@
+{
+    "title": "Kalkulator Efektywności Pamięci Podręcznej Claude",
+    "params": {
+        "title": "Parametry",
+        "promptSize": "Początkowa Wielkość Promptu:",
+        "maxPromptSize": "Maksymalna Wielkość Promptu:",
+        "trimmedSize": "Wielkość Po Przycięciu:",
+        "modelResponseSize": "Wielkość Odpowiedzi Modelu:",
+        "userMessageSize": "Wielkość Wiadomości Użytkownika:",
+        "iterations": "Liczba Iteracji:",
+        "calculateToMax": "Oblicz do maksymalnej wielkości promptu (bez przycinania)",
+        "sendingCost": "Koszt Wejścia (na 1M tokenów):",
+        "modelCost": "Koszt Wyjścia (na 1M tokenów):",
+        "cacheMissMultiplier": "Mnożnik Braku Pamięci Podręcznej:",
+        "cacheHitMultiplier": "Mnożnik Trafienia Pamięci Podręcznej:"
+    },
+    "buttons": {
+        "reset": "Reset",
+        "calculate": "Oblicz",
+        "prevPage": "Wstecz",
+        "nextPage": "Dalej"
+    },
+    "results": {
+        "title": "Wyniki",
+        "calculating": "Obliczanie...",
+        "iteration": "Iteracja",
+        "promptSize": "Wielkość Promptu",
+        "withCache": "Z Pamięcią Podręczną ($)",
+        "withoutCache": "Bez Pamięci Podręcznej ($)",
+        "difference": "Różnica ($)",
+        "differencePercent": "Różnica (%)",
+        "page": "Strona",
+        "of": "/"
+    },
+    "summary": {
+        "title": "Podsumowanie",
+        "totalCostWithCache": "Całkowity Koszt Z Pamięcią Podręczną:",
+        "totalCostWithoutCache": "Całkowity Koszt Bez Pamięci Podręcznej:",
+        "savings": "Całkowite Oszczędności:",
+        "iterations": "Całkowita Liczba Iteracji:"
+    },
+    "footer": {
+        "description": "Ten kalkulator pomaga ocenić korzyści ekonomiczne wynikające z używania pamięci podręcznej podczas komunikacji z modelami Claude."
+    }
+} 

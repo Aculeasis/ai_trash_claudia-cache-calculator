@@ -1,0 +1,45 @@
+{
+  "title": "מחשבון יעילות המטמון של Claude",
+  "params": {
+    "title": "פרמטרים",
+    "promptSize": "גודל הנחיה התחלתי:",
+    "maxPromptSize": "גודל הנחיה מקסימלי:",
+    "trimmedSize": "גודל לאחר קיצוץ:",
+    "modelResponseSize": "גודל תשובת המודל:",
+    "userMessageSize": "גודל הודעת משתמש:",
+    "iterations": "מספר חזרות:",
+    "calculateToMax": "חשב עד לגודל ההנחיה המקסימלי (ללא קיצוץ)",
+    "sendingCost": "עלות קלט (ל-1M טוקנים):",
+    "modelCost": "עלות פלט (ל-1M טוקנים):",
+    "cacheMissMultiplier": "מכפיל החטאת מטמון:",
+    "cacheHitMultiplier": "מכפיל פגיעת מטמון:"
+  },
+  "buttons": {
+    "reset": "איפוס",
+    "calculate": "חישוב",
+    "prevPage": "הקודם",
+    "nextPage": "הבא"
+  },
+  "results": {
+    "title": "תוצאות",
+    "calculating": "מחשב...",
+    "iteration": "חזרה",
+    "promptSize": "גודל הנחיה",
+    "withCache": "עם מטמון (₪)",
+    "withoutCache": "ללא מטמון (₪)",
+    "difference": "הפרש (₪)",
+    "differencePercent": "הפרש (%)",
+    "page": "עמוד",
+    "of": "מתוך"
+  },
+  "summary": {
+    "title": "תוצאה סופית:",
+    "totalCostWithCache": "עלות כוללת עם מטמון:",
+    "totalCostWithoutCache": "עלות כוללת ללא מטמון:",
+    "savings": "חיסכון:",
+    "iterations": "מספר חזרות:"
+  },
+  "footer": {
+    "description": "מחשבון זה עוזר להעריך את היתרונות הכלכליים של שימוש במטמון בתקשורת עם מודלים של Claude."
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "title": "Claude Cache-Effizienz-Rechner",
+  "params": {
+    "title": "Parameter",
+    "promptSize": "Anfängliche Prompt-Größe:",
+    "maxPromptSize": "Maximale Prompt-Größe:",
+    "trimmedSize": "Größe nach Kürzung:",
+    "modelResponseSize": "Modell-Antwortgröße:",
+    "userMessageSize": "Benutzernachrichtengröße:",
+    "iterations": "Anzahl der Iterationen:",
+    "calculateToMax": "Bis zur maximalen Prompt-Größe berechnen (ohne Kürzung)",
+    "sendingCost": "Eingabekosten (pro 1M Token):",
+    "modelCost": "Ausgabekosten (pro 1M Token):",
+    "cacheMissMultiplier": "Cache-Miss-Multiplikator:",
+    "cacheHitMultiplier": "Cache-Hit-Multiplikator:"
+  },
+  "buttons": {
+    "reset": "Zurücksetzen",
+    "calculate": "Berechnen",
+    "prevPage": "Zurück",
+    "nextPage": "Weiter"
+  },
+  "results": {
+    "title": "Ergebnisse",
+    "calculating": "Berechne...",
+    "iteration": "Iteration",
+    "promptSize": "Prompt-Größe",
+    "withCache": "Mit Cache (€)",
+    "withoutCache": "Ohne Cache (€)",
+    "difference": "Differenz (€)",
+    "differencePercent": "Differenz (%)",
+    "page": "Seite",
+    "of": "von"
+  },
+  "summary": {
+    "title": "Endergebnis:",
+    "totalCostWithCache": "Gesamtkosten mit Cache:",
+    "totalCostWithoutCache": "Gesamtkosten ohne Cache:",
+    "savings": "Einsparungen:",
+    "iterations": "Anzahl der Iterationen:"
+  },
+  "footer": {
+    "description": "Dieser Rechner hilft bei der Bewertung der wirtschaftlichen Vorteile der Verwendung von Caching bei der Kommunikation mit Claude-Modellen."
+  }
+}

@@ -1,0 +1,45 @@
+{
+    "title": "Calculadora de Eficiência de Cache Claude",
+    "params": {
+        "title": "Parâmetros",
+        "promptSize": "Tamanho Inicial do Prompt:",
+        "maxPromptSize": "Tamanho Máximo do Prompt:",
+        "trimmedSize": "Tamanho Após Corte:",
+        "modelResponseSize": "Tamanho da Resposta do Modelo:",
+        "userMessageSize": "Tamanho da Mensagem do Usuário:",
+        "iterations": "Número de Iterações:",
+        "calculateToMax": "Calcular até o tamanho máximo do prompt (sem corte)",
+        "sendingCost": "Custo de Entrada (por 1M tokens):",
+        "modelCost": "Custo de Saída (por 1M tokens):",
+        "cacheMissMultiplier": "Multiplicador de Cache Miss:",
+        "cacheHitMultiplier": "Multiplicador de Cache Hit:"
+    },
+    "buttons": {
+        "reset": "Redefinir",
+        "calculate": "Calcular",
+        "prevPage": "Anterior",
+        "nextPage": "Próximo"
+    },
+    "results": {
+        "title": "Resultados",
+        "calculating": "Calculando...",
+        "iteration": "Iteração",
+        "promptSize": "Tamanho do Prompt",
+        "withCache": "Com Cache ($)",
+        "withoutCache": "Sem Cache ($)",
+        "difference": "Diferença ($)",
+        "differencePercent": "Diferença (%)",
+        "page": "Página",
+        "of": "de"
+    },
+    "summary": {
+        "title": "Resumo",
+        "totalCostWithCache": "Custo Total Com Cache:",
+        "totalCostWithoutCache": "Custo Total Sem Cache:",
+        "savings": "Economia Total:",
+        "iterations": "Número Total de Iterações:"
+    },
+    "footer": {
+        "description": "Esta calculadora ajuda a avaliar os benefícios econômicos do uso de cache ao se comunicar com modelos Claude."
+    }
+} 

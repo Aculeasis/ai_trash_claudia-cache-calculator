@@ -1,0 +1,45 @@
+{
+    "title": "Claude Önbellek Verimlilik Hesaplayıcı",
+    "params": {
+        "title": "Parametreler",
+        "promptSize": "Başlangıç İstek Boyutu:",
+        "maxPromptSize": "Maksimum İstek Boyutu:",
+        "trimmedSize": "Kırpılmış Boyut:",
+        "modelResponseSize": "Model Yanıt Boyutu:",
+        "userMessageSize": "Kullanıcı Mesaj Boyutu:",
+        "iterations": "Yineleme Sayısı:",
+        "calculateToMax": "Maksimum istek boyutuna kadar hesapla (kırpma olmadan)",
+        "sendingCost": "Giriş Maliyeti (1M token başına):",
+        "modelCost": "Çıkış Maliyeti (1M token başına):",
+        "cacheMissMultiplier": "Önbellek Kaçırma Çarpanı:",
+        "cacheHitMultiplier": "Önbellek İsabet Çarpanı:"
+    },
+    "buttons": {
+        "reset": "Sıfırla",
+        "calculate": "Hesapla",
+        "prevPage": "Geri",
+        "nextPage": "İleri"
+    },
+    "results": {
+        "title": "Sonuçlar",
+        "calculating": "Hesaplanıyor...",
+        "iteration": "Yineleme",
+        "promptSize": "İstek Boyutu",
+        "withCache": "Önbellekli ($)",
+        "withoutCache": "Önbelleksiz ($)",
+        "difference": "Fark ($)",
+        "differencePercent": "Fark (%)",
+        "page": "Sayfa",
+        "of": "/"
+    },
+    "summary": {
+        "title": "Özet",
+        "totalCostWithCache": "Toplam Önbellekli Maliyet:",
+        "totalCostWithoutCache": "Toplam Önbelleksiz Maliyet:",
+        "savings": "Toplam Tasarruf:",
+        "iterations": "Toplam Yineleme Sayısı:"
+    },
+    "footer": {
+        "description": "Bu hesaplayıcı, Claude modelleriyle iletişim kurarken önbellek kullanmanın ekonomik faydalarını değerlendirmenize yardımcı olur."
+    }
+} 

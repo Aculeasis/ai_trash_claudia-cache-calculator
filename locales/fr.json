@@ -1,0 +1,45 @@
+{
+  "title": "Calculateur d'efficacité du cache Claude",
+  "params": {
+    "title": "Paramètres",
+    "promptSize": "Taille initiale du prompt :",
+    "maxPromptSize": "Taille maximale du prompt :",
+    "trimmedSize": "Taille après réduction :",
+    "modelResponseSize": "Taille de réponse du modèle :",
+    "userMessageSize": "Taille du message utilisateur :",
+    "iterations": "Nombre d'itérations :",
+    "calculateToMax": "Calculer jusqu'à la taille maximale du prompt (sans réduction)",
+    "sendingCost": "Coût d'entrée (par 1M tokens) :",
+    "modelCost": "Coût de sortie (par 1M tokens) :",
+    "cacheMissMultiplier": "Multiplicateur de cache miss :",
+    "cacheHitMultiplier": "Multiplicateur de cache hit :"
+  },
+  "buttons": {
+    "reset": "Réinitialiser",
+    "calculate": "Calculer",
+    "prevPage": "Précédent",
+    "nextPage": "Suivant"
+  },
+  "results": {
+    "title": "Résultats",
+    "calculating": "Calcul en cours...",
+    "iteration": "Itération",
+    "promptSize": "Taille du prompt",
+    "withCache": "Avec cache (€)",
+    "withoutCache": "Sans cache (€)",
+    "difference": "Différence (€)",
+    "differencePercent": "Différence (%)",
+    "page": "Page",
+    "of": "sur"
+  },
+  "summary": {
+    "title": "Résultat final :",
+    "totalCostWithCache": "Coût total avec cache :",
+    "totalCostWithoutCache": "Coût total sans cache :",
+    "savings": "Économies :",
+    "iterations": "Nombre d'itérations :"
+  },
+  "footer": {
+    "description": "Ce calculateur aide à évaluer les avantages économiques de l'utilisation du cache lors de la communication avec les modèles Claude."
+  }
+}

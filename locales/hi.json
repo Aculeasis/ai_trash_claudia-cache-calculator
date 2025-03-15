@@ -1,0 +1,45 @@
+{
+    "title": "क्लॉड कैश दक्षता कैलकुलेटर",
+    "params": {
+        "title": "पैरामीटर",
+        "promptSize": "प्रारंभिक प्रॉम्प्ट आकार:",
+        "maxPromptSize": "अधिकतम प्रॉम्प्ट आकार:",
+        "trimmedSize": "काटने के बाद आकार:",
+        "modelResponseSize": "मॉडल प्रतिक्रिया आकार:",
+        "userMessageSize": "उपयोगकर्ता संदेश आकार:",
+        "iterations": "पुनरावृत्तियों की संख्या:",
+        "calculateToMax": "अधिकतम प्रॉम्प्ट आकार तक गणना करें (काटने के बिना)",
+        "sendingCost": "इनपुट लागत (प्रति 1M टोकन):",
+        "modelCost": "आउटपुट लागत (प्रति 1M टोकन):",
+        "cacheMissMultiplier": "कैश मिस गुणक:",
+        "cacheHitMultiplier": "कैश हिट गुणक:"
+    },
+    "buttons": {
+        "reset": "रीसेट",
+        "calculate": "गणना करें",
+        "prevPage": "पिछला",
+        "nextPage": "अगला"
+    },
+    "results": {
+        "title": "परिणाम",
+        "calculating": "गणना हो रही है...",
+        "iteration": "पुनरावृत्ति",
+        "promptSize": "प्रॉम्प्ट आकार",
+        "withCache": "कैश के साथ ($)",
+        "withoutCache": "कैश के बिना ($)",
+        "difference": "अंतर ($)",
+        "differencePercent": "अंतर (%)",
+        "page": "पृष्ठ",
+        "of": "/"
+    },
+    "summary": {
+        "title": "सारांश",
+        "totalCostWithCache": "कैश के साथ कुल लागत:",
+        "totalCostWithoutCache": "कैश के बिना कुल लागत:",
+        "savings": "कुल बचत:",
+        "iterations": "कुल पुनरावृत्तियों की संख्या:"
+    },
+    "footer": {
+        "description": "यह कैलकुलेटर क्लॉड मॉडल के साथ संवाद करते समय कैशिंग का उपयोग करने के आर्थिक लाभों का मूल्यांकन करने में मदद करता है।"
+    }
+} 

@@ -1,0 +1,45 @@
+{
+  "title": "Claude キャッシュ効率計算機",
+  "params": {
+    "title": "パラメータ",
+    "promptSize": "初期プロンプトサイズ:",
+    "maxPromptSize": "最大プロンプトサイズ:",
+    "trimmedSize": "トリミング後のサイズ:",
+    "modelResponseSize": "モデルレスポンスサイズ:",
+    "userMessageSize": "ユーザーメッセージサイズ:",
+    "iterations": "繰り返し回数:",
+    "calculateToMax": "最大プロンプトサイズまで計算（トリミングなし）",
+    "sendingCost": "入力コスト（100万トークンあたり）:",
+    "modelCost": "出力コスト（100万トークンあたり）:",
+    "cacheMissMultiplier": "キャッシュミス乗数:",
+    "cacheHitMultiplier": "キャッシュヒット乗数:"
+  },
+  "buttons": {
+    "reset": "リセット",
+    "calculate": "計算",
+    "prevPage": "前へ",
+    "nextPage": "次へ"
+  },
+  "results": {
+    "title": "結果",
+    "calculating": "計算中...",
+    "iteration": "反復",
+    "promptSize": "プロンプトサイズ",
+    "withCache": "キャッシュあり (¥)",
+    "withoutCache": "キャッシュなし (¥)",
+    "difference": "差額 (¥)",
+    "differencePercent": "差額 (%)",
+    "page": "ページ",
+    "of": "/"
+  },
+  "summary": {
+    "title": "最終結果:",
+    "totalCostWithCache": "キャッシュありの総コスト:",
+    "totalCostWithoutCache": "キャッシュなしの総コスト:",
+    "savings": "節約額:",
+    "iterations": "反復回数:"
+  },
+  "footer": {
+    "description": "この計算機は、Claudeモデルとの通信におけるキャッシュ使用の経済的利点を評価するのに役立ちます。"
+  }
+}

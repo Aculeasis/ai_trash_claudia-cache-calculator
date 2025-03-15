@@ -1,0 +1,45 @@
+{
+  "title": "Калькулятар эфектыўнасці кэша Claude",
+  "params": {
+    "title": "Параметры",
+    "promptSize": "Пачатковы памер промпта:",
+    "maxPromptSize": "Максімальны памер промпта:",
+    "trimmedSize": "Памер пасля абрэзкі:",
+    "modelResponseSize": "Памер адказу мадэлі:",
+    "userMessageSize": "Памер паведамлення карыстальніка:",
+    "iterations": "Колькасць ітэрацый:",
+    "calculateToMax": "Разлічыць да максімальнага памеру промпта (без абрэзкі)",
+    "sendingCost": "Кошт уводу (за 1M токенаў):",
+    "modelCost": "Кошт вываду (за 1M токенаў):",
+    "cacheMissMultiplier": "Множнік промаху кэша:",
+    "cacheHitMultiplier": "Множнік трапляння ў кэш:"
+  },
+  "buttons": {
+    "reset": "Скінуць",
+    "calculate": "Разлічыць",
+    "prevPage": "Назад",
+    "nextPage": "Далей"
+  },
+  "results": {
+    "title": "Вынікі",
+    "calculating": "Разлік...",
+    "iteration": "Ітэрацыя",
+    "promptSize": "Памер промпта",
+    "withCache": "З кэшам ($)",
+    "withoutCache": "Без кэша ($)",
+    "difference": "Розніца ($)",
+    "differencePercent": "Розніца (%)",
+    "page": "Старонка",
+    "of": "з"
+  },
+  "summary": {
+    "title": "Канчатковы вынік:",
+    "totalCostWithCache": "Агульны кошт з кэшам:",
+    "totalCostWithoutCache": "Агульны кошт без кэша:",
+    "savings": "Эканомія:",
+    "iterations": "Колькасць ітэрацый:"
+  },
+  "footer": {
+    "description": "Гэты калькулятар дапамагае ацаніць эканамічныя перавагі выкарыстання кэшавання пры камунікацыі з мадэлямі Claude."
+  }
+}

@@ -1,0 +1,45 @@
+{
+    "title": "Υπολογιστής Αποδοτικότητας Cache Claude",
+    "params": {
+        "title": "Παράμετροι",
+        "promptSize": "Αρχικό Μέγεθος Prompt:",
+        "maxPromptSize": "Μέγιστο Μέγεθος Prompt:",
+        "trimmedSize": "Μέγεθος Μετά Από Περικοπή:",
+        "modelResponseSize": "Μέγεθος Απάντησης Μοντέλου:",
+        "userMessageSize": "Μέγεθος Μηνύματος Χρήστη:",
+        "iterations": "Αριθμός Επαναλήψεων:",
+        "calculateToMax": "Υπολογισμός μέχρι μέγιστο μέγεθος prompt (χωρίς περικοπή)",
+        "sendingCost": "Κόστος Εισόδου (ανά 1M tokens):",
+        "modelCost": "Κόστος Εξόδου (ανά 1M tokens):",
+        "cacheMissMultiplier": "Πολλαπλασιαστής Αποτυχίας Cache:",
+        "cacheHitMultiplier": "Πολλαπλασιαστής Επιτυχίας Cache:"
+    },
+    "buttons": {
+        "reset": "Επαναφορά",
+        "calculate": "Υπολογισμός",
+        "prevPage": "Προηγούμενη",
+        "nextPage": "Επόμενη"
+    },
+    "results": {
+        "title": "Αποτελέσματα",
+        "calculating": "Υπολογισμός...",
+        "iteration": "Επανάληψη",
+        "promptSize": "Μέγεθος Prompt",
+        "withCache": "Με Cache ($)",
+        "withoutCache": "Χωρίς Cache ($)",
+        "difference": "Διαφορά ($)",
+        "differencePercent": "Διαφορά (%)",
+        "page": "Σελίδα",
+        "of": "/"
+    },
+    "summary": {
+        "title": "Σύνοψη",
+        "totalCostWithCache": "Συνολικό Κόστος Με Cache:",
+        "totalCostWithoutCache": "Συνολικό Κόστος Χωρίς Cache:",
+        "savings": "Συνολική Εξοικονόμηση:",
+        "iterations": "Συνολικός Αριθμός Επαναλήψεων:"
+    },
+    "footer": {
+        "description": "Αυτός ο υπολογιστής βοηθά στην αξιολόγηση των οικονομικών οφελών της χρήσης cache κατά την επικοινωνία με τα μοντέλα Claude."
+    }
+} 

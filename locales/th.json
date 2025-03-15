@@ -1,0 +1,45 @@
+{
+  "title": "เครื่องคำนวณประสิทธิภาพแคช Claude",
+  "params": {
+    "title": "พารามิเตอร์",
+    "promptSize": "ขนาดพรอมต์เริ่มต้น:",
+    "maxPromptSize": "ขนาดพรอมต์สูงสุด:",
+    "trimmedSize": "ขนาดหลังการตัด:",
+    "modelResponseSize": "ขนาดการตอบสนองของโมเดล:",
+    "userMessageSize": "ขนาดข้อความผู้ใช้:",
+    "iterations": "จำนวนรอบ:",
+    "calculateToMax": "คำนวณถึงขนาดพรอมต์สูงสุด (ไม่มีการตัด)",
+    "sendingCost": "ต้นทุนอินพุต (ต่อ 1M โทเค็น):",
+    "modelCost": "ต้นทุนเอาต์พุต (ต่อ 1M โทเค็น):",
+    "cacheMissMultiplier": "ตัวคูณแคชพลาด:",
+    "cacheHitMultiplier": "ตัวคูณแคชถูก:"
+  },
+  "buttons": {
+    "reset": "รีเซ็ต",
+    "calculate": "คำนวณ",
+    "prevPage": "ก่อนหน้า",
+    "nextPage": "ถัดไป"
+  },
+  "results": {
+    "title": "ผลลัพธ์",
+    "calculating": "กำลังคำนวณ...",
+    "iteration": "รอบ",
+    "promptSize": "ขนาดพรอมต์",
+    "withCache": "มีแคช (฿)",
+    "withoutCache": "ไม่มีแคช (฿)",
+    "difference": "ผลต่าง (฿)",
+    "differencePercent": "ผลต่าง (%)",
+    "page": "หน้า",
+    "of": "จาก"
+  },
+  "summary": {
+    "title": "ผลลัพธ์สุดท้าย:",
+    "totalCostWithCache": "ต้นทุนรวมที่มีแคช:",
+    "totalCostWithoutCache": "ต้นทุนรวมที่ไม่มีแคช:",
+    "savings": "ประหยัด:",
+    "iterations": "จำนวนรอบ:"
+  },
+  "footer": {
+    "description": "เครื่องคำนวณนี้ช่วยประเมินประโยชน์ทางเศรษฐกิจของการใช้แคชในการสื่อสารกับโมเดล Claude"
+  }
+}

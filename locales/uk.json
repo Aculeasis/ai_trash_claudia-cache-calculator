@@ -1,0 +1,45 @@
+{
+  "title": "Калькулятор ефективності кешу Claude",
+  "params": {
+    "title": "Параметри",
+    "promptSize": "Початковий розмір промпту:",
+    "maxPromptSize": "Максимальний розмір промпту:",
+    "trimmedSize": "Розмір після обрізки:",
+    "modelResponseSize": "Розмір відповіді моделі:",
+    "userMessageSize": "Розмір повідомлення користувача:",
+    "iterations": "Кількість ітерацій:",
+    "calculateToMax": "Розрахувати до максимального розміру промпту (без обрізки)",
+    "sendingCost": "Вартість вводу (за 1M токенів):",
+    "modelCost": "Вартість виводу (за 1M токенів):",
+    "cacheMissMultiplier": "Множник промаху кешу:",
+    "cacheHitMultiplier": "Множник влучання в кеш:"
+  },
+  "buttons": {
+    "reset": "Скинути",
+    "calculate": "Обчислити",
+    "prevPage": "Назад",
+    "nextPage": "Далі"
+  },
+  "results": {
+    "title": "Результати",
+    "calculating": "Обчислення...",
+    "iteration": "Ітерація",
+    "promptSize": "Розмір промпту",
+    "withCache": "З кешем (₴)",
+    "withoutCache": "Без кешу (₴)",
+    "difference": "Різниця (₴)",
+    "differencePercent": "Різниця (%)",
+    "page": "Сторінка",
+    "of": "з"
+  },
+  "summary": {
+    "title": "Підсумковий результат:",
+    "totalCostWithCache": "Загальна вартість з кешем:",
+    "totalCostWithoutCache": "Загальна вартість без кешу:",
+    "savings": "Економія:",
+    "iterations": "Кількість ітерацій:"
+  },
+  "footer": {
+    "description": "Цей калькулятор допомагає оцінити економічні переваги використання кешування при спілкуванні з моделями Claude."
+  }
+}

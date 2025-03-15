@@ -1,0 +1,45 @@
+{
+  "title": "Claude 캐시 효율성 계산기",
+  "params": {
+    "title": "매개변수",
+    "promptSize": "초기 프롬프트 크기:",
+    "maxPromptSize": "최대 프롬프트 크기:",
+    "trimmedSize": "잘린 후 크기:",
+    "modelResponseSize": "모델 응답 크기:",
+    "userMessageSize": "사용자 메시지 크기:",
+    "iterations": "반복 횟수:",
+    "calculateToMax": "최대 프롬프트 크기까지 계산 (자르기 없음)",
+    "sendingCost": "입력 비용 (100만 토큰당):",
+    "modelCost": "출력 비용 (100만 토큰당):",
+    "cacheMissMultiplier": "캐시 미스 승수:",
+    "cacheHitMultiplier": "캐시 히트 승수:"
+  },
+  "buttons": {
+    "reset": "초기화",
+    "calculate": "계산",
+    "prevPage": "이전",
+    "nextPage": "다음"
+  },
+  "results": {
+    "title": "결과",
+    "calculating": "계산 중...",
+    "iteration": "반복",
+    "promptSize": "프롬프트 크기",
+    "withCache": "캐시 사용 (₩)",
+    "withoutCache": "캐시 미사용 (₩)",
+    "difference": "차이 (₩)",
+    "differencePercent": "차이 (%)",
+    "page": "페이지",
+    "of": "/"
+  },
+  "summary": {
+    "title": "최종 결과:",
+    "totalCostWithCache": "캐시 사용 총 비용:",
+    "totalCostWithoutCache": "캐시 미사용 총 비용:",
+    "savings": "절감액:",
+    "iterations": "반복 횟수:"
+  },
+  "footer": {
+    "description": "이 계산기는 Claude 모델과 통신할 때 캐시 사용의 경제적 이점을 평가하는 데 도움을 줍니다."
+  }
+}
