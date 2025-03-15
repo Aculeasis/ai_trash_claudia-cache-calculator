@@ -30,6 +30,7 @@ jobs:
           cp script.js ./_site/
           cp README.md ./_site/
           cp favicon.svg ./_site/
+          cp 404.html ./_site/
           cp -r locales ./_site/
           cp -r flags ./_site/
       - name: Upload artifact

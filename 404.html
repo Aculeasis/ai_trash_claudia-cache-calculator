@@ -1,35 +1,126 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 - Страница не найдена</title>
+    <title>404 - AI Got Lost in Cache</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #03dac6;
+            --background-color: #f5f5f5;
+            --card-color: #ffffff;
+            --text-primary: #333333;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
             text-align: center;
-            padding: 50px;
-            background-color: #f5f5f5;
         }
+
+        .container {
+            max-width: 800px;
+            background-color: var(--card-color);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
         h1 {
-            color: #6200ea;
+            color: var(--primary-color);
+            font-size: 3em;
+            margin-bottom: 20px;
         }
-        p {
+
+        .ascii-art {
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre;
+            font-size: 16px;
+            line-height: 1.2;
+            margin: 30px auto;
+            color: var(--primary-color);
+            display: inline-block;
+            text-align: left;
+            padding: 20px;
+            background-color: rgba(98, 0, 234, 0.05);
+            border-radius: 10px;
+        }
+
+        .message {
+            font-size: 1.2em;
+            line-height: 1.6;
             margin: 20px 0;
         }
-        a {
-            color: #03dac6;
-            text-decoration: none;
+
+        .error-code {
+            font-family: monospace;
+            color: var(--secondary-color);
+            font-size: 1.5em;
+            margin: 20px 0;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .home-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .home-link:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .ai-joke {
+            font-style: italic;
+            color: #666;
+            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <h1>404 - Страница не найдена</h1>
-    <p>Кажется, ИИ съел запрашиваемую страницу. Такое бывает.</p>
-    <p><a href="/">Вернуться на главную</a></p>
-    <p><small>Ошибка сгенерирована нейросетью с особой любовью.</small></p>
+    <div class="container">
+        <h1>404 - Page Not Found</h1>
+        
+        <div class="ascii-art">
+            ╱\___/\
+           (  o o  )
+           (  =^=  ) 
+            (______)
+         
+     AI CAT IS DEBUGGING...
+        </div>
+
+        <div class="message">
+            Oops! Looks like our AI got lost in the cache memory!<br>
+            It was probably too busy calculating token savings...
+        </div>
+
+        <div class="error-code">
+            ERROR_CACHE_MISS = {
+                "status": 404,
+                "message": "Page not found in cache or main memory"
+            }
+        </div>
+
+        <div class="ai-joke">
+            "I'm not lost, I'm just exploring alternative neural pathways!" - Claude
+        </div>
+
+        <a href="/" class="home-link">Return to Calculator</a>
+    </div>
 </body>
 </html> 
