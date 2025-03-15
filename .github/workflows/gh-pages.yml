@@ -29,6 +29,8 @@ jobs:
           cp styles.css ./_site/
           cp script.js ./_site/
           cp README.md ./_site/
+          cp -r locales ./_site/
+          cp -r flags ./_site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

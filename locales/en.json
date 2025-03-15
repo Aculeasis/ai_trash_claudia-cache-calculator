@@ -1,0 +1,45 @@
+{
+  "title": "Claude Cache Efficiency Calculator",
+  "params": {
+    "title": "Parameters",
+    "promptSize": "Initial Prompt Size:",
+    "maxPromptSize": "Maximum Prompt Size:",
+    "trimmedSize": "Size After Trimming:",
+    "modelResponseSize": "Model Response Size:",
+    "userMessageSize": "User Message Size:",
+    "iterations": "Number of Iterations:",
+    "calculateToMax": "Calculate up to maximum prompt size (without trimming)",
+    "sendingCost": "Input Cost (per 1M tokens):",
+    "modelCost": "Output Cost (per 1M tokens):",
+    "cacheMissMultiplier": "Cache Miss Multiplier:",
+    "cacheHitMultiplier": "Cache Hit Multiplier:"
+  },
+  "buttons": {
+    "reset": "Reset",
+    "calculate": "Calculate",
+    "prevPage": "Back",
+    "nextPage": "Next"
+  },
+  "results": {
+    "title": "Results",
+    "calculating": "Calculating...",
+    "iteration": "Iteration",
+    "promptSize": "Prompt Size",
+    "withCache": "With Cache ($)",
+    "withoutCache": "Without Cache ($)",
+    "difference": "Difference ($)",
+    "differencePercent": "Difference (%)",
+    "page": "Page",
+    "of": "of"
+  },
+  "summary": {
+    "title": "Final Result:",
+    "totalCostWithCache": "Total Cost with Cache:",
+    "totalCostWithoutCache": "Total Cost without Cache:",
+    "savings": "Savings:",
+    "iterations": "Number of Iterations:"
+  },
+  "footer": {
+    "description": "This calculator helps evaluate the economic benefits of using caching when communicating with Claude models."
+  }
+} 

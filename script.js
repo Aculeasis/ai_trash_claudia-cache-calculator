@@ -1,3 +1,148 @@
+// Глобальная переменная для текущего языка
+let currentLang = 'en';
+let translations = {};
+
+// Загрузка переводов
+async function loadTranslations() {
+    try {
+        const response = await fetch(`locales/${currentLang}.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        translations = await response.json();
+        updateUILanguage();
+    } catch (error) {
+        console.error(`Failed to load translations for ${currentLang}:`, error);
+        // Если не удалось загрузить перевод, используем английский
+        if (currentLang !== 'en') {
+            currentLang = 'en';
+            loadTranslations();
+        }
+    }
+}
+
+// Функция для получения перевода
+function t(key) {
+    const keys = key.split('.');
+    let result = translations;
+    
+    for (const k of keys) {
+        if (result && typeof result === 'object' && k in result) {
+            result = result[k];
+        } else {
+            console.warn(`Translation key not found: ${key}`);
+            return key;
+        }
+    }
+    
+    return result;
+}
+
+// Обновление интерфейса при смене языка
+function updateUILanguage() {
+    // Обновляем заголовок
+    document.querySelector('h1').textContent = t('title');
+    
+    // Обновляем заголовки разделов
+    document.querySelector('.form-section h2').textContent = t('params.title');
+    document.querySelector('.results-section h2').textContent = t('results.title');
+    
+    // Обновляем подписи полей ввода
+    document.querySelector('label[for="promptSize"]').textContent = t('params.promptSize');
+    document.querySelector('label[for="maxPromptSize"]').textContent = t('params.maxPromptSize');
+    document.querySelector('label[for="trimmedSize"]').textContent = t('params.trimmedSize');
+    document.querySelector('label[for="modelResponseSize"]').textContent = t('params.modelResponseSize');
+    document.querySelector('label[for="userMessageSize"]').textContent = t('params.userMessageSize');
+    document.querySelector('label[for="iterations"]').textContent = t('params.iterations');
+    document.querySelector('label[for="calculateToMax"]').textContent = t('params.calculateToMax');
+    document.querySelector('label[for="sendingCost"]').textContent = t('params.sendingCost');
+    document.querySelector('label[for="modelCost"]').textContent = t('params.modelCost');
+    document.querySelector('label[for="cacheMissMultiplier"]').textContent = t('params.cacheMissMultiplier');
+    document.querySelector('label[for="cacheHitMultiplier"]').textContent = t('params.cacheHitMultiplier');
+    
+    // Обновляем кнопки
+    document.querySelector('.reset-button').textContent = t('buttons.reset');
+    document.querySelector('.calculate-button').textContent = t('buttons.calculate');
+    document.getElementById('prevPage').textContent = t('buttons.prevPage');
+    document.getElementById('nextPage').textContent = t('buttons.nextPage');
+    
+    // Обновляем подписи в таблице результатов
+    const tableHeaders = document.querySelectorAll('#resultsTable th');
+    tableHeaders[0].textContent = t('results.iteration');
+    tableHeaders[1].textContent = t('results.promptSize');
+    tableHeaders[2].textContent = t('results.withCache');
+    tableHeaders[3].textContent = t('results.withoutCache');
+    tableHeaders[4].textContent = t('results.difference');
+    tableHeaders[5].textContent = t('results.differencePercent');
+    
+    // Обновляем текст "загрузка"
+    document.querySelector('#loading p').textContent = t('results.calculating');
+    
+    // Обновляем текст в футере
+    document.querySelector('.footer p:first-child').textContent = t('footer.description');
+    
+    // Обновляем поля сводки, если есть
+    const summary = document.getElementById('summary');
+    if (summary.style.display !== 'none') {
+        updateSummary();
+    }
+    
+    // Обновляем информацию о странице
+    updatePaginationControls();
+}
+
+// Функция для переключения языка
+function switchLanguage(lang) {
+    if (currentLang === lang) return;
+    
+    currentLang = lang;
+    
+    // Обновляем отображаемый флаг и текст
+    document.getElementById('current-flag').src = `flags/${lang}.svg`;
+    document.getElementById('current-language').textContent = lang.toUpperCase();
+    
+    // Загружаем переводы и обновляем интерфейс
+    loadTranslations();
+    
+    // Сохраняем выбранный язык в localStorage
+    localStorage.setItem('preferredLanguage', lang);
+}
+
+// Восстановление языка из localStorage при загрузке страницы
+function initLanguage() {
+    const savedLang = localStorage.getItem('preferredLanguage');
+    if (savedLang) {
+        currentLang = savedLang;
+    }
+    
+    // Обновляем отображаемый флаг и текст
+    document.getElementById('current-flag').src = `flags/${currentLang}.svg`;
+    document.getElementById('current-language').textContent = currentLang.toUpperCase();
+    
+    // Загружаем переводы
+    loadTranslations();
+    
+    // Обработчик клика по селектору языка
+    document.querySelector('.selected-language').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelector('.language-dropdown').classList.toggle('show');
+    });
+    
+    // Закрытие меню при клике в другом месте
+    document.addEventListener('click', function() {
+        document.querySelector('.language-dropdown').classList.remove('show');
+    });
+    
+    // Добавляем обработчики событий для переключения языка
+    document.querySelectorAll('.language-dropdown li').forEach(li => {
+        li.addEventListener('click', function(e) {
+            e.stopPropagation();
+            switchLanguage(this.getAttribute('data-lang'));
+            document.querySelector('.language-dropdown').classList.remove('show');
+        });
+    });
+}
+
 // Дефолтные значения параметров
 const defaultParams = {
     promptSize: 2000,
@@ -157,6 +302,15 @@ function calculateResults() {
         const totalDifference = totalCostWithoutCache - totalCostWithCache;
         const totalDifferencePercent = (totalDifference / totalCostWithoutCache) * 100;
         
+        // Сохраняем данные сводки для обновления при смене языка
+        summaryData = {
+            totalCostWithCache,
+            totalCostWithoutCache,
+            totalDifference,
+            totalDifferencePercent,
+            iterations: actualIterations
+        };
+        
         displaySummary(totalCostWithCache, totalCostWithoutCache, totalDifference, totalDifferencePercent, actualIterations);
         
         // Скрываем индикатор загрузки
@@ -223,7 +377,10 @@ function updatePaginationControls() {
     prevButton.disabled = currentPage === 1;
     nextButton.disabled = currentPage === totalPages;
 
-    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    // Исправляем формат отображения страниц
+    const pageText = t('results.page');
+    const ofText = t('results.of');
+    pageInfo.textContent = `${pageText} ${currentPage} ${ofText} ${totalPages}`;
 
     // Скрываем пагинацию, если всего одна страница
     paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
@@ -266,18 +423,50 @@ function displaySummary(totalCostWithCache, totalCostWithoutCache, totalDifferen
     const summaryDiv = document.getElementById('summary');
     summaryDiv.style.display = 'block';
     
+    // Получаем все тексты перевода заранее
+    const titleText = t('summary.title');
+    const withCacheText = t('summary.totalCostWithCache');
+    const withoutCacheText = t('summary.totalCostWithoutCache');
+    const savingsText = t('summary.savings');
+    const iterationsText = t('summary.iterations');
+    
     const summaryHTML = `
-        <h3>Final Result:</h3>
-        <p>Total Cost with Cache: <strong>$${totalCostWithCache.toFixed(8)}</strong></p>
-        <p>Total Cost without Cache: <strong>$${totalCostWithoutCache.toFixed(8)}</strong></p>
-        <p>Savings: <strong class="${totalDifference >= 0 ? 'positive' : 'negative'}">
+        <h3>${titleText}</h3>
+        <p>${withCacheText} <strong>$${totalCostWithCache.toFixed(8)}</strong></p>
+        <p>${withoutCacheText} <strong>$${totalCostWithoutCache.toFixed(8)}</strong></p>
+        <p>${savingsText} <strong class="${totalDifference >= 0 ? 'positive' : 'negative'}">
             $${totalDifference.toFixed(8)} (${totalDifferencePercent.toFixed(4)}%)
         </strong></p>
-        <p>Number of Iterations: <strong>${iterations}</strong></p>
+        <p>${iterationsText} <strong>${iterations}</strong></p>
     `;
     
     summaryDiv.innerHTML = summaryHTML;
 }
 
-// Выполняем расчет при загрузке страницы
-document.addEventListener('DOMContentLoaded', calculateResults); 
+// Сохраняем оригинальные данные сводки для обновления при смене языка
+let summaryData = {
+    totalCostWithCache: 0,
+    totalCostWithoutCache: 0,
+    totalDifference: 0,
+    totalDifferencePercent: 0,
+    iterations: 0
+};
+
+// Обновление сводки при смене языка
+function updateSummary() {
+    if (summaryData.iterations > 0) {
+        displaySummary(
+            summaryData.totalCostWithCache, 
+            summaryData.totalCostWithoutCache, 
+            summaryData.totalDifference, 
+            summaryData.totalDifferencePercent, 
+            summaryData.iterations
+        );
+    }
+}
+
+// Выполняем инициализацию при загрузке страницы
+document.addEventListener('DOMContentLoaded', function() {
+    initLanguage();  // Инициализация локализации
+    calculateResults();  // Рассчет результатов по умолчанию
+}); 

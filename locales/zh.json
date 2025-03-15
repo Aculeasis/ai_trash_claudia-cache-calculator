@@ -1,0 +1,45 @@
+{
+  "title": "Claude缓存效率计算器",
+  "params": {
+    "title": "参数",
+    "promptSize": "初始提示词大小：",
+    "maxPromptSize": "最大提示词大小：",
+    "trimmedSize": "裁剪后大小：",
+    "modelResponseSize": "模型响应大小：",
+    "userMessageSize": "用户消息大小：",
+    "iterations": "迭代次数：",
+    "calculateToMax": "计算到最大提示词大小（不裁剪）",
+    "sendingCost": "输入成本（每1M令牌）：",
+    "modelCost": "输出成本（每1M令牌）：",
+    "cacheMissMultiplier": "缓存未命中乘数：",
+    "cacheHitMultiplier": "缓存命中乘数："
+  },
+  "buttons": {
+    "reset": "重置",
+    "calculate": "计算",
+    "prevPage": "上一页",
+    "nextPage": "下一页"
+  },
+  "results": {
+    "title": "结果",
+    "calculating": "计算中...",
+    "iteration": "迭代",
+    "promptSize": "提示词大小",
+    "withCache": "有缓存 ($)",
+    "withoutCache": "无缓存 ($)",
+    "difference": "差异 ($)",
+    "differencePercent": "差异 (%)",
+    "page": "页面",
+    "of": "/"
+  },
+  "summary": {
+    "title": "最终结果：",
+    "totalCostWithCache": "使用缓存的总成本：",
+    "totalCostWithoutCache": "不使用缓存的总成本：",
+    "savings": "节省：",
+    "iterations": "迭代次数："
+  },
+  "footer": {
+    "description": "此计算器有助于评估与Claude模型通信时使用缓存的经济效益。"
+  }
+} 

@@ -323,4 +323,72 @@ button:hover {
     .form-section, .results-section {
         min-width: auto;
     }
+}
+
+/* Стили для языкового селектора */
+.language-selector {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    font-size: 14px;
+}
+
+.selected-language {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background-color: var(--card-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+}
+
+.selected-language img {
+    width: 20px;
+    height: 15px;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+.arrow {
+    margin-left: 8px;
+    font-size: 10px;
+}
+
+.language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--card-color);
+    list-style: none;
+    margin: 5px 0 0;
+    padding: 0;
+    border-radius: 5px;
+    box-shadow: var(--box-shadow);
+    display: none;
+    width: 150px;
+    z-index: 101;
+}
+
+.language-dropdown.show {
+    display: block;
+}
+
+.language-dropdown li {
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.language-dropdown li:hover {
+    background-color: var(--background-color);
+}
+
+.language-dropdown img {
+    width: 20px;
+    height: 15px;
+    margin-right: 10px;
+    object-fit: cover;
 } 
