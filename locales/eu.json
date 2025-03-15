@@ -1,0 +1,45 @@
+{
+    "title": "Claude Cache Eraginkortasun Kalkulagailua",
+    "params": {
+        "title": "Parametroak",
+        "promptSize": "Hasierako Prompt Tamaina:",
+        "maxPromptSize": "Gehienezko Prompt Tamaina:",
+        "trimmedSize": "Mozketa Ondorengo Tamaina:",
+        "modelResponseSize": "Ereduaren Erantzun Tamaina:",
+        "userMessageSize": "Erabiltzailearen Mezu Tamaina:",
+        "iterations": "Iterazio Kopurua:",
+        "calculateToMax": "Kalkulatu gehienezko prompt tamainara arte (mozketarik gabe)",
+        "sendingCost": "Sarrera Kostua (1M token bakoitzeko):",
+        "modelCost": "Irteera Kostua (1M token bakoitzeko):",
+        "cacheMissMultiplier": "Cache Miss Biderkatzailea:",
+        "cacheHitMultiplier": "Cache Hit Biderkatzailea:"
+    },
+    "buttons": {
+        "reset": "Berrezarri",
+        "calculate": "Kalkulatu",
+        "prevPage": "Atzera",
+        "nextPage": "Aurrera"
+    },
+    "results": {
+        "title": "Emaitzak",
+        "calculating": "Kalkulatzen...",
+        "iteration": "Iterazioa",
+        "promptSize": "Prompt Tamaina",
+        "withCache": "Cache-arekin ($)",
+        "withoutCache": "Cache-rik gabe ($)",
+        "difference": "Diferentzia ($)",
+        "differencePercent": "Diferentzia (%)",
+        "page": "Orria",
+        "of": "/"
+    },
+    "summary": {
+        "title": "Laburpena",
+        "totalCostWithCache": "Kostu Totala Cache-arekin:",
+        "totalCostWithoutCache": "Kostu Totala Cache-rik gabe:",
+        "savings": "Aurrezpen Totala:",
+        "iterations": "Iterazio Kopuru Totala:"
+    },
+    "footer": {
+        "description": "Kalkulagailu honek Claude ereduekin komunikatzean cache erabiltzeak dakartzan onura ekonomikoak ebaluatzen laguntzen du."
+    }
+} 

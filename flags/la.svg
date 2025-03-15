@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="800" viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+    <rect width="1200" height="800" fill="#7F0000"/>
+    <text x="600" y="400" font-family="Times New Roman" font-size="200" text-anchor="middle" fill="#FFD700">SPQR</text>
+    <circle cx="600" cy="200" r="100" fill="none" stroke="#FFD700" stroke-width="10"/>
+    <path d="M600,300 L600,600 M500,500 L700,500" stroke="#FFD700" stroke-width="10"/>
+</svg> 

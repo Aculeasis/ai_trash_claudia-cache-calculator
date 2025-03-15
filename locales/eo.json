@@ -1,0 +1,45 @@
+{
+    "title": "Claude Kaŝmemora Efikeco Kalkulilo",
+    "params": {
+        "title": "Parametroj",
+        "promptSize": "Komenca Invita Grandeco:",
+        "maxPromptSize": "Maksimuma Invita Grandeco:",
+        "trimmedSize": "Grandeco Post Tondado:",
+        "modelResponseSize": "Modelo Responda Grandeco:",
+        "userMessageSize": "Uzanta Mesaĝa Grandeco:",
+        "iterations": "Nombro da Iteracioj:",
+        "calculateToMax": "Kalkuli ĝis maksimuma invita grandeco (sen tondado)",
+        "sendingCost": "Eniga Kosto (por 1M ĵetonoj):",
+        "modelCost": "Eliga Kosto (por 1M ĵetonoj):",
+        "cacheMissMultiplier": "Kaŝmemora Maltrafoj Multiplikanto:",
+        "cacheHitMultiplier": "Kaŝmemora Trafoj Multiplikanto:"
+    },
+    "buttons": {
+        "reset": "Rekomenci",
+        "calculate": "Kalkuli",
+        "prevPage": "Antaŭa",
+        "nextPage": "Sekva"
+    },
+    "results": {
+        "title": "Rezultoj",
+        "calculating": "Kalkulante...",
+        "iteration": "Iteracio",
+        "promptSize": "Invita Grandeco",
+        "withCache": "Kun Kaŝmemoro ($)",
+        "withoutCache": "Sen Kaŝmemoro ($)",
+        "difference": "Diferenco ($)",
+        "differencePercent": "Diferenco (%)",
+        "page": "Paĝo",
+        "of": "el"
+    },
+    "summary": {
+        "title": "Resumo",
+        "totalCostWithCache": "Tuta Kosto Kun Kaŝmemoro:",
+        "totalCostWithoutCache": "Tuta Kosto Sen Kaŝmemoro:",
+        "savings": "Tuta Ŝparo:",
+        "iterations": "Tuta Nombro da Iteracioj:"
+    },
+    "footer": {
+        "description": "Ĉi tiu kalkulilo helpas taksi la ekonomiajn avantaĝojn de uzado de kaŝmemoro dum komunikado kun Claude-modeloj."
+    }
+} 

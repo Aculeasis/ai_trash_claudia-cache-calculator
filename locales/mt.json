@@ -1,0 +1,45 @@
+{
+    "title": "Kalkulatur tal-Effiċjenza tal-Cache ta' Claude",
+    "params": {
+        "title": "Parametri",
+        "promptSize": "Daqs Inizjali tal-Prompt:",
+        "maxPromptSize": "Daqs Massimu tal-Prompt:",
+        "trimmedSize": "Daqs Wara t-Tqaxxir:",
+        "modelResponseSize": "Daqs tar-Risposta tal-Mudell:",
+        "userMessageSize": "Daqs tal-Messaġġ tal-Utent:",
+        "iterations": "Numru ta' Iterazzjonijiet:",
+        "calculateToMax": "Ikkalkula sad-daqs massimu tal-prompt (mingħajr tqaxxir)",
+        "sendingCost": "Spiża tal-Input (għal kull 1M tokens):",
+        "modelCost": "Spiża tal-Output (għal kull 1M tokens):",
+        "cacheMissMultiplier": "Multiplikatur ta' Cache Miss:",
+        "cacheHitMultiplier": "Multiplikatur ta' Cache Hit:"
+    },
+    "buttons": {
+        "reset": "Irrisettja",
+        "calculate": "Ikkalkula",
+        "prevPage": "Lura",
+        "nextPage": "Li Jmiss"
+    },
+    "results": {
+        "title": "Riżultati",
+        "calculating": "Qed jikkalkula...",
+        "iteration": "Iterazzjoni",
+        "promptSize": "Daqs tal-Prompt",
+        "withCache": "Bil-Cache ($)",
+        "withoutCache": "Mingħajr Cache ($)",
+        "difference": "Differenza ($)",
+        "differencePercent": "Differenza (%)",
+        "page": "Paġna",
+        "of": "minn"
+    },
+    "summary": {
+        "title": "Sommarju",
+        "totalCostWithCache": "Spiża Totali Bil-Cache:",
+        "totalCostWithoutCache": "Spiża Totali Mingħajr Cache:",
+        "savings": "Tfaddil Totali:",
+        "iterations": "Numru Totali ta' Iterazzjonijiet:"
+    },
+    "footer": {
+        "description": "Dan il-kalkulatur jgħin biex tevalwa l-benefiċċji ekonomiċi tal-użu tal-caching meta tikkomunika ma' mudelli Claude."
+    }
+} 

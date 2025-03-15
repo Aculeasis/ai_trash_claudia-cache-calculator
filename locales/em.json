@@ -1,0 +1,45 @@
+{
+    "title": "🧮 🔄 📊 🧠",
+    "params": {
+        "title": "⚙️ 📝",
+        "promptSize": "🔤 🔢 🏁:",
+        "maxPromptSize": "🔤 🔢 ⬆️:",
+        "trimmedSize": "🔤 ✂️ 🔢:",
+        "modelResponseSize": "🤖 💬 🔢:",
+        "userMessageSize": "👤 💬 🔢:",
+        "iterations": "🔄 🔢:",
+        "calculateToMax": "🧮 ➡️ 🔤 🔢 ⬆️ (❌ ✂️)",
+        "sendingCost": "📤 💰 (1️⃣Ⓜ️ 🔤):",
+        "modelCost": "📥 💰 (1️⃣Ⓜ️ 🔤):",
+        "cacheMissMultiplier": "🧠 ❌ ✖️:",
+        "cacheHitMultiplier": "🧠 ✅ ✖️:"
+    },
+    "buttons": {
+        "reset": "🔄 🏁",
+        "calculate": "🧮 🔢",
+        "prevPage": "⬅️ 📄",
+        "nextPage": "➡️ 📄"
+    },
+    "results": {
+        "title": "📊 📈",
+        "calculating": "🧮 ⏳...",
+        "iteration": "🔄 #️⃣",
+        "promptSize": "🔤 🔢",
+        "withCache": "🧠 ✅ ($)",
+        "withoutCache": "🧠 ❌ ($)",
+        "difference": "📊 ↔️ ($)",
+        "differencePercent": "📊 ↔️ (%)",
+        "page": "📄",
+        "of": "/"
+    },
+    "summary": {
+        "title": "📋 💯",
+        "totalCostWithCache": "💰 🧠 ✅:",
+        "totalCostWithoutCache": "💰 🧠 ❌:",
+        "savings": "💰 💹:",
+        "iterations": "🔄 #️⃣ 💯:"
+    },
+    "footer": {
+        "description": "🧮 📊 💰 �� 🔄 🤖 🗣️"
+    }
+} 

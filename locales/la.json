@@ -1,0 +1,45 @@
+{
+    "title": "Calculator Efficientiae Memoriae Claudii",
+    "params": {
+        "title": "Parametra",
+        "promptSize": "Magnitudo Initialis Prompti:",
+        "maxPromptSize": "Magnitudo Maxima Prompti:",
+        "trimmedSize": "Magnitudo Post Truncationem:",
+        "modelResponseSize": "Magnitudo Responsi Modelli:",
+        "userMessageSize": "Magnitudo Nuntii Utentis:",
+        "iterations": "Numerus Iterationum:",
+        "calculateToMax": "Calcula ad magnitudinem maximam prompti (sine truncatione)",
+        "sendingCost": "Sumptus Inputi (per 1M tesserarum):",
+        "modelCost": "Sumptus Outputi (per 1M tesserarum):",
+        "cacheMissMultiplier": "Multiplicator Defectus Memoriae:",
+        "cacheHitMultiplier": "Multiplicator Successus Memoriae:"
+    },
+    "buttons": {
+        "reset": "Restitue",
+        "calculate": "Calcula",
+        "prevPage": "Retro",
+        "nextPage": "Porro"
+    },
+    "results": {
+        "title": "Resultata",
+        "calculating": "Calculans...",
+        "iteration": "Iteratio",
+        "promptSize": "Magnitudo Prompti",
+        "withCache": "Cum Memoria ($)",
+        "withoutCache": "Sine Memoria ($)",
+        "difference": "Differentia ($)",
+        "differencePercent": "Differentia (%)",
+        "page": "Pagina",
+        "of": "ex"
+    },
+    "summary": {
+        "title": "Summarium",
+        "totalCostWithCache": "Sumptus Totalis Cum Memoria:",
+        "totalCostWithoutCache": "Sumptus Totalis Sine Memoria:",
+        "savings": "Parsimonia Totalis:",
+        "iterations": "Numerus Totalis Iterationum:"
+    },
+    "footer": {
+        "description": "Hic calculator adiuvat ad aestimandum beneficia oeconomica utendi memoria in communicatione cum modellis Claudii."
+    }
+} 
