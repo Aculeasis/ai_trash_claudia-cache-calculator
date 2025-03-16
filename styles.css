@@ -1,16 +1,16 @@
 :root {
-    --primary-color: #6200ea;
-    --primary-light: #9d46ff;
-    --primary-dark: #0a00b6;
-    --secondary-color: #03dac6;
-    --background-color: #f5f5f5;
-    --card-color: #ffffff;
-    --text-primary: #333333;
-    --text-secondary: #666666;
-    --positive-color: #00c853;
-    --negative-color: #f44336;
-    --border-radius: 12px;
-    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --primary-color: #3a1f8b;    /* Более темный фиолетовый */
+    --primary-light: #5d32ad;    /* Темно-фиолетовый для акцентов */
+    --primary-dark: #23136a;     /* Еще более темный фиолетовый */
+    --secondary-color: #006d75;  /* Темный бирюзовый */
+    --background-color: #121212; /* Очень темный фон */
+    --card-color: #1a1a1a;       /* Темный цвет карточек */
+    --text-primary: #e0e0e0;     /* Белый текст с легкой серостью */
+    --text-secondary: #a0a0a0;   /* Светло-серый текст */
+    --positive-color: #38a33c;   /* Более темный зеленый */
+    --negative-color: #e53935;   /* Более темный красный */
+    --border-radius: 6px;        /* Слегка уменьшенный радиус для более лаконичного вида */
+    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Более темная тень */
 }
 
 body {
@@ -50,72 +50,81 @@ h2 {
 
 .form-section {
     flex: 1;
-    min-width: 320px;
+    min-width: 280px; /* Уменьшенная минимальная ширина */
     background-color: var(--card-color);
-    padding: 25px;
+    padding: 12px; /* Уменьшенные отступы */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
 }
 
 .results-section {
     flex: 2;
-    min-width: 650px;
+    min-width: 580px; /* Уменьшенная минимальная ширина */
     background-color: var(--card-color);
-    padding: 25px;
+    padding: 12px; /* Уменьшенные отступы */
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    position: relative; /* Добавляем относительное позиционирование */
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
     overflow: hidden;
+    background-color: var(--card-color);
 }
 
 th, td {
-    border: 1px solid #e0e0e0;
-    padding: 12px;
+    border: 1px solid #333333; /* Более темные границы */
+    padding: 10px; /* Немного меньше отступы */
     text-align: right;
 }
 
 th {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
     text-align: center;
     font-weight: 600;
 }
 
 tr:nth-child(even) {
-    background-color: #f9f9f9;
+    background-color: #222222; /* Темно-серый для четных строк */
+}
+
+tr:nth-child(odd) {
+    background-color: var(--card-color); /* Цвет карточки для нечетных строк */
 }
 
 tr:hover {
-    background-color: #f0f0f0;
+    background-color: #2a2a2a; /* Чуть светлее при наведении */
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px; /* Уменьшенный отступ */
     position: relative;
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
+    margin-bottom: 6px; /* Уменьшенный отступ */
+    font-weight: 500; /* Чуть меньший вес */
     color: var(--text-secondary);
+    font-size: 0.9rem; /* Уменьшенный размер шрифта */
 }
 
 input[type="number"] {
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
+    padding: 8px 10px; /* Уменьшенные отступы */
+    border: 1px solid #444444; /* Более темный бордер */
+    border-radius: var(--border-radius);
+    font-size: 0.95rem; /* Уменьшенный шрифт */
     transition: border 0.3s;
     box-sizing: border-box;
+    background-color: #252525; /* Темный фон ввода */
+    color: var(--text-primary); /* Светлый текст */
 }
 
 /* Скрываем стрелочки для Chrome, Safari, Edge, Opera */
@@ -131,27 +140,28 @@ input[type="number"] {
 }
 
 input[type="number"]:focus {
-    border-color: var(--primary-color);
+    border-color: var(--primary-light);
     outline: none;
-    box-shadow: 0 0 0 2px rgba(98, 0, 234, 0.2);
+    box-shadow: 0 0 0 2px rgba(93, 50, 173, 0.2);
 }
 
 .input-group::after {
     content: attr(data-unit);
     position: absolute;
-    right: 15px;
-    top: 40px;
+    right: 12px;
+    top: 35px; /* Скорректированное положение */
     color: var(--text-secondary);
+    font-size: 0.85rem; /* Меньший размер для единиц измерения */
 }
 
 button {
     background-color: var(--primary-color);
     color: white;
-    padding: 14px 20px;
+    padding: 10px 16px; /* Уменьшенные отступы */
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.9rem; /* Уменьшенный шрифт */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -161,7 +171,7 @@ button {
 }
 
 button:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--primary-light);
 }
 
 .button-container {
@@ -171,12 +181,12 @@ button:hover {
 }
 
 .reset-button {
-    background-color: #9e9e9e;
+    background-color: #555555; /* Более темный серый */
     width: 40%;
 }
 
 .reset-button:hover {
-    background-color: #757575;
+    background-color: #666666;
 }
 
 .calculate-button {
@@ -186,14 +196,15 @@ button:hover {
 .checkbox-container {
     display: flex;
     align-items: center;
-    margin-top: 10px;
-    gap: 10px;
+    margin-top: 8px; /* Меньший отступ */
+    gap: 8px; /* Меньший промежуток */
 }
 
 .checkbox-container input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
+    accent-color: var(--primary-light); /* Цвет чекбокса */
 }
 
 .checkbox-container label {
@@ -202,11 +213,12 @@ button:hover {
 }
 
 .summary {
-    margin-top: 25px;
-    padding: 20px;
-    background-color: #e8f5e9;
+    margin-top: 20px;
+    padding: 16px;
+    background-color: #1e2a1f; /* Темно-зеленый фон */
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--box-shadow);
+    color: var(--text-primary);
 }
 
 .summary h3 {
@@ -297,16 +309,16 @@ button:hover {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 6px 12px; /* Уменьшенные отступы */
+    border-radius: var(--border-radius);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.85rem; /* Меньший шрифт */
     width: auto;
     margin: 0;
 }
 
 .pagination button:disabled {
-    background-color: #cccccc;
+    background-color: #444444; /* Более темный серый для отключенных кнопок */
     cursor: not-allowed;
 }
 
@@ -328,19 +340,19 @@ button:hover {
 /* Стили для языкового селектора */
 .language-selector {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 12px;
+    right: 12px;
     z-index: 100;
-    font-size: 14px;
+    font-size: 0.85rem; /* Уменьшенный шрифт */
 }
 
 .selected-language {
     display: flex;
     align-items: center;
     cursor: pointer;
-    background-color: var(--card-color);
-    padding: 5px 10px;
-    border-radius: 5px;
+    background-color: #252525; /* Немного темнее, чем card-color */
+    padding: 4px 8px; /* Уменьшенные отступы */
+    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
 }
 
@@ -362,12 +374,12 @@ button:hover {
     right: 0;
     background-color: var(--card-color);
     list-style: none;
-    margin: 5px 0 0;
+    margin: 4px 0 0;
     padding: 0;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
     display: none;
-    width: 150px;
+    width: 140px; /* Уменьшенная ширина */
     z-index: 101;
 }
 
