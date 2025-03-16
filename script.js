@@ -1,628 +1,690 @@
-// Глобальная переменная для текущего языка
-let currentLang = 'en';
-let translations = {};
-// Глобальная переменная для текущей темы
-let currentTheme = 'dark';
+// Основная структура приложения
+const App = (function() {
+    // Инициализация приложения
+    function init() {
+        LanguageManager.init();
+        ThemeManager.init();
+        CalculationManager.init();
+        
+        // Привязка обработчиков событий
+        setupEventListeners();
+        
+        // Выполняем первоначальный расчет при загрузке страницы
+        CalculationManager.calculate();
+    }
+    
+    // Настройка обработчиков событий
+    function setupEventListeners() {
+        document.querySelector('.reset-button').addEventListener('click', resetParameters);
+        document.querySelector('.calculate-button').addEventListener('click', CalculationManager.calculate);
+        document.getElementById('prevPage').addEventListener('click', () => UIManager.navigatePage(-1));
+        document.getElementById('nextPage').addEventListener('click', () => UIManager.navigatePage(1));
+    }
+    
+    // Сброс параметров на значения по умолчанию
+    function resetParameters() {
+        const defaultParams = CalculationManager.getDefaultParams();
+        Object.keys(defaultParams).forEach(key => {
+            const element = document.getElementById(key);
+            if (element) {
+                if (element.type === 'checkbox') {
+                    element.checked = defaultParams[key];
+                } else {
+                    element.value = defaultParams[key];
+                }
+            }
+        });
+    }
+    
+    return {
+        init,
+        resetParameters // Экспортируем для доступа из HTML
+    };
+})();
 
-// Загрузка переводов
-async function loadTranslations() {
-    try {
-        const response = await fetch(`locales/${currentLang}.json`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+// Управление языками и переводами
+const LanguageManager = (function() {
+    let currentLang = 'en';
+    let translations = {};
+    
+    function init() {
+        // Восстановление языка из localStorage
+        const savedLang = localStorage.getItem('preferredLanguage');
+        if (savedLang) {
+            currentLang = savedLang;
         }
-        translations = await response.json();
-        updateUILanguage();
-    } catch (error) {
-        console.error(`Failed to load translations for ${currentLang}:`, error);
-        // Если не удалось загрузить перевод, используем английский
-        if (currentLang !== 'en') {
-            currentLang = 'en';
-            loadTranslations();
-        }
-    }
-}
-
-// Функция для получения перевода
-function t(key) {
-    const keys = key.split('.');
-    let result = translations;
-    
-    for (const k of keys) {
-        if (result && typeof result === 'object' && k in result) {
-            result = result[k];
-        } else {
-            console.warn(`Translation key not found: ${key}`);
-            return key;
-        }
-    }
-    
-    return result;
-}
-
-// Обновление интерфейса при смене языка
-function updateUILanguage() {
-    // Обновляем заголовок
-    document.querySelector('h1').textContent = t('title');
-    
-    // Обновляем заголовки разделов
-    document.querySelector('.form-section h2').textContent = t('params.title');
-    document.querySelector('.results-section h2').textContent = t('results.title');
-    
-    // Обновляем подписи полей ввода
-    document.querySelector('label[for="promptSize"]').textContent = t('params.promptSize');
-    document.querySelector('label[for="maxPromptSize"]').textContent = t('params.maxPromptSize');
-    document.querySelector('label[for="trimmedSize"]').textContent = t('params.trimmedSize');
-    document.querySelector('label[for="modelResponseSize"]').textContent = t('params.modelResponseSize');
-    document.querySelector('label[for="userMessageSize"]').textContent = t('params.userMessageSize');
-    document.querySelector('label[for="iterations"]').textContent = t('params.iterations');
-    document.querySelector('label[for="calculateToMax"]').textContent = t('params.calculateToMax');
-    document.querySelector('label[for="sendingCost"]').textContent = t('params.sendingCost');
-    document.querySelector('label[for="modelCost"]').textContent = t('params.modelCost');
-    document.querySelector('label[for="cacheMissMultiplier"]').textContent = t('params.cacheMissMultiplier');
-    document.querySelector('label[for="cacheHitMultiplier"]').textContent = t('params.cacheHitMultiplier');
-    
-    // Обновляем кнопки
-    document.querySelector('.reset-button').textContent = t('buttons.reset');
-    document.querySelector('.calculate-button').textContent = t('buttons.calculate');
-    document.getElementById('prevPage').textContent = t('buttons.prevPage');
-    document.getElementById('nextPage').textContent = t('buttons.nextPage');
-    
-    // Обновляем подписи в таблице результатов
-    const tableHeaders = document.querySelectorAll('#resultsTable th');
-    tableHeaders[0].textContent = t('results.iteration');
-    tableHeaders[1].textContent = t('results.promptSize');
-    tableHeaders[2].textContent = t('results.withCache');
-    tableHeaders[3].textContent = t('results.withoutCache');
-    tableHeaders[4].textContent = t('results.difference');
-    tableHeaders[5].textContent = t('results.differencePercent');
-    
-    // Обновляем текст "загрузка"
-    document.querySelector('#loading p').textContent = t('results.calculating');
-    
-    // Обновляем текст в футере
-    document.querySelector('.footer p:first-child').textContent = t('footer.description');
-    
-    // Обновляем поля сводки, если есть
-    const summary = document.getElementById('summary');
-    if (summary.style.display !== 'none') {
-        updateSummary();
-    }
-    
-    // Обновляем информацию о странице
-    updatePaginationControls();
-}
-
-// Функция для переключения языка
-function switchLanguage(lang) {
-    if (currentLang === lang) return;
-    
-    currentLang = lang;
-    
-    // Обновляем отображаемый флаг и текст
-    document.getElementById('current-flag').src = `flags/${lang}.svg`;
-    document.getElementById('current-language').textContent = lang.toUpperCase();
-    
-    // Загружаем переводы и обновляем интерфейс
-    loadTranslations();
-    
-    // Сохраняем выбранный язык в localStorage
-    localStorage.setItem('preferredLanguage', lang);
-}
-
-// Восстановление языка из localStorage при загрузке страницы
-function initLanguage() {
-    const savedLang = localStorage.getItem('preferredLanguage');
-    if (savedLang) {
-        currentLang = savedLang;
-    }
-    
-    // Обновляем отображаемый флаг и текст
-    document.getElementById('current-flag').src = `flags/${currentLang}.svg`;
-    document.getElementById('current-language').textContent = currentLang.toUpperCase();
-    
-    // Загружаем переводы
-    loadTranslations();
-    
-    // Обработчик клика по селектору языка
-    document.querySelector('.selected-language').addEventListener('click', function(e) {
-        e.stopPropagation();
-        document.querySelector('.language-dropdown').classList.toggle('show');
-    });
-    
-    // Закрытие меню при клике в другом месте
-    document.addEventListener('click', function() {
-        document.querySelector('.language-dropdown').classList.remove('show');
-    });
-    
-    // Добавляем обработчики событий для переключения языка
-    document.querySelectorAll('.language-dropdown li').forEach(li => {
-        li.addEventListener('click', function(e) {
+        
+        updateLanguageUI();
+        loadTranslations();
+        
+        // Настройка обработчиков событий
+        document.querySelector('.selected-language').addEventListener('click', function(e) {
             e.stopPropagation();
-            switchLanguage(this.getAttribute('data-lang'));
+            document.querySelector('.language-dropdown').classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function() {
             document.querySelector('.language-dropdown').classList.remove('show');
         });
-    });
-}
-
-// Инициализация темы
-function initTheme() {
-    // Проверяем сохраненную тему в localStorage
-    const savedTheme = localStorage.getItem('preferredTheme');
-    
-    if (savedTheme) {
-        // Используем сохраненную тему
-        setTheme(savedTheme);
-    } else {
-        // По умолчанию используем темную тему
-        setTheme('dark');
+        
+        document.querySelectorAll('.language-dropdown li').forEach(li => {
+            li.addEventListener('click', function(e) {
+                e.stopPropagation();
+                switchLanguage(this.getAttribute('data-lang'));
+                document.querySelector('.language-dropdown').classList.remove('show');
+            });
+        });
     }
     
-    // Обработчик клика по селектору темы
-    document.querySelector('.selected-theme').addEventListener('click', function(e) {
-        e.stopPropagation();
-        document.querySelector('.theme-dropdown').classList.toggle('show');
-    });
+    function updateLanguageUI() {
+        document.getElementById('current-flag').src = `flags/${currentLang}.svg`;
+        document.getElementById('current-language').textContent = currentLang.toUpperCase();
+    }
     
-    // Закрытие меню при клике в другом месте
-    document.addEventListener('click', function() {
-        document.querySelector('.theme-dropdown').classList.remove('show');
-    });
+    async function loadTranslations() {
+        try {
+            const response = await fetch(`locales/${currentLang}.json`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            translations = await response.json();
+            updateUILanguage();
+        } catch (error) {
+            console.error(`Failed to load translations for ${currentLang}:`, error);
+            // Запасной вариант при ошибке загрузки
+            if (currentLang !== 'en') {
+                currentLang = 'en';
+                loadTranslations();
+            }
+        }
+    }
     
-    // Добавляем обработчики событий для переключения темы
-    document.querySelectorAll('.theme-dropdown li').forEach(li => {
-        li.addEventListener('click', function(e) {
+    function switchLanguage(lang) {
+        if (currentLang === lang) return;
+        
+        currentLang = lang;
+        updateLanguageUI();
+        loadTranslations();
+        localStorage.setItem('preferredLanguage', lang);
+    }
+    
+    function t(key) {
+        const keys = key.split('.');
+        let result = translations;
+        
+        for (const k of keys) {
+            if (result && typeof result === 'object' && k in result) {
+                result = result[k];
+            } else {
+                console.warn(`Translation key not found: ${key}`);
+                return key;
+            }
+        }
+        
+        return result;
+    }
+    
+    function updateUILanguage() {
+        // Обновление заголовка
+        document.querySelector('h1').textContent = t('title');
+        
+        // Обновление заголовков разделов
+        document.querySelector('.form-section h2').textContent = t('params.title');
+        document.querySelector('.results-section h2').textContent = t('results.title');
+        
+        // Обновление подписей полей ввода
+        const labelSelectors = {
+            'promptSize': 'params.promptSize',
+            'maxPromptSize': 'params.maxPromptSize',
+            'trimmedSize': 'params.trimmedSize',
+            'modelResponseSize': 'params.modelResponseSize',
+            'userMessageSize': 'params.userMessageSize',
+            'iterations': 'params.iterations',
+            'calculateToMax': 'params.calculateToMax',
+            'sendingCost': 'params.sendingCost',
+            'modelCost': 'params.modelCost',
+            'cacheMissMultiplier': 'params.cacheMissMultiplier',
+            'cacheHitMultiplier': 'params.cacheHitMultiplier'
+        };
+        
+        Object.entries(labelSelectors).forEach(([id, translationKey]) => {
+            const label = document.querySelector(`label[for="${id}"]`);
+            if (label) {
+                label.textContent = t(translationKey);
+            }
+        });
+        
+        // Обновление кнопок
+        document.querySelector('.reset-button').textContent = t('buttons.reset');
+        document.querySelector('.calculate-button').textContent = t('buttons.calculate');
+        document.getElementById('prevPage').textContent = t('buttons.prevPage');
+        document.getElementById('nextPage').textContent = t('buttons.nextPage');
+        
+        // Обновление заголовков таблицы
+        const tableHeaders = document.querySelectorAll('#resultsTable th');
+        const headerTranslations = [
+            'results.iteration',
+            'results.promptSize',
+            'results.withCache',
+            'results.withoutCache',
+            'results.difference',
+            'results.differencePercent'
+        ];
+        
+        tableHeaders.forEach((header, index) => {
+            if (index < headerTranslations.length) {
+                header.textContent = t(headerTranslations[index]);
+            }
+        });
+        
+        // Обновление текста "загрузка"
+        document.querySelector('#loading p').textContent = t('results.calculating');
+        
+        // Обновление текста в футере
+        document.querySelector('.footer p:first-child').textContent = t('footer.description');
+        
+        // Обновление сводки и пагинации
+        UIManager.updateSummary();
+        UIManager.updatePaginationControls();
+    }
+    
+    return {
+        init,
+        t,
+        updateUILanguage
+    };
+})();
+
+// Управление темой оформления
+const ThemeManager = (function() {
+    let currentTheme = 'dark';
+    
+    function init() {
+        // Проверка сохраненной темы
+        const savedTheme = localStorage.getItem('preferredTheme');
+        
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else {
+            setTheme('dark');
+        }
+        
+        setupEventListeners();
+        setupSystemThemeListener();
+    }
+    
+    function setupEventListeners() {
+        document.querySelector('.selected-theme').addEventListener('click', function(e) {
             e.stopPropagation();
-            setTheme(this.getAttribute('data-theme'));
+            document.querySelector('.theme-dropdown').classList.toggle('show');
+        });
+        
+        document.addEventListener('click', function() {
             document.querySelector('.theme-dropdown').classList.remove('show');
         });
-    });
-}
-
-// Функция установки темы
-function setTheme(theme) {
-    let actualTheme = theme;
-    
-    // Если выбрана автоматическая тема, определяем на основе системных настроек
-    if (theme === 'auto') {
-        // Проверяем предпочтения системы
-        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        actualTheme = prefersDarkScheme ? 'dark' : 'light';
-    }
-    
-    // Устанавливаем атрибут темы для корневого элемента
-    document.documentElement.setAttribute('data-theme', actualTheme);
-    
-    // Обновляем текущую тему
-    currentTheme = theme;
-    
-    // Обновляем отображение текущей темы
-    updateThemeDisplay(theme);
-    
-    // Сохраняем выбранную тему в localStorage
-    localStorage.setItem('preferredTheme', theme);
-}
-
-// Функция обновления отображения текущей темы
-function updateThemeDisplay(theme) {
-    // Обновляем только иконку
-    const themeIcon = document.getElementById('current-theme-icon');
-    
-    // Устанавливаем соответствующую иконку
-    if (theme === 'auto') {
-        themeIcon.className = 'fas fa-adjust';
-    } else if (theme === 'light') {
-        themeIcon.className = 'fas fa-sun';
-    } else {
-        themeIcon.className = 'fas fa-moon';
-    }
-}
-
-// Отслеживание изменений системной темы для режима 'auto'
-function setupSystemThemeListener() {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-        if (currentTheme === 'auto') {
-            const newTheme = e.matches ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-        }
-    });
-}
-
-// Дефолтные значения параметров
-const defaultParams = {
-    promptSize: 2000,
-    maxPromptSize: 10000,
-    trimmedSize: 5000,
-    modelResponseSize: 250,
-    userMessageSize: 20,
-    iterations: 50,
-    sendingCost: 3,
-    modelCost: 15,
-    cacheMissMultiplier: 1.25,
-    cacheHitMultiplier: 0.1,
-    calculateToMax: true
-};
-
-// Глобальные переменные для пагинации
-let currentPage = 1;
-const rowsPerPage = 50;
-let allResults = [];
-
-// Функция сброса параметров на дефолтные
-function resetParameters() {
-    document.getElementById('promptSize').value = defaultParams.promptSize;
-    document.getElementById('maxPromptSize').value = defaultParams.maxPromptSize;
-    document.getElementById('trimmedSize').value = defaultParams.trimmedSize;
-    document.getElementById('modelResponseSize').value = defaultParams.modelResponseSize;
-    document.getElementById('userMessageSize').value = defaultParams.userMessageSize;
-    document.getElementById('iterations').value = defaultParams.iterations;
-    document.getElementById('sendingCost').value = defaultParams.sendingCost;
-    document.getElementById('modelCost').value = defaultParams.modelCost;
-    document.getElementById('cacheMissMultiplier').value = defaultParams.cacheMissMultiplier;
-    document.getElementById('cacheHitMultiplier').value = defaultParams.cacheHitMultiplier;
-    document.getElementById('calculateToMax').checked = defaultParams.calculateToMax;
-}
-
-function calculateResults() {
-    // Показываем индикатор загрузки
-    document.getElementById('loading').style.display = 'block';
-    
-    // Откладываем вычисления, чтобы дать браузеру время показать индикатор загрузки
-    setTimeout(() => {
-        // Получаем значения из формы
-        const promptSize = parseFloat(document.getElementById('promptSize').value);
-        const maxPromptSize = parseFloat(document.getElementById('maxPromptSize').value);
-        const trimmedSize = parseFloat(document.getElementById('trimmedSize').value);
-        const modelResponseSize = parseFloat(document.getElementById('modelResponseSize').value);
-        const userMessageSize = parseFloat(document.getElementById('userMessageSize').value);
-        let iterations = parseInt(document.getElementById('iterations').value);
-        const sendingCost = parseFloat(document.getElementById('sendingCost').value);
-        const modelCost = parseFloat(document.getElementById('modelCost').value);
-        const cacheMissMultiplier = parseFloat(document.getElementById('cacheMissMultiplier').value);
-        const cacheHitMultiplier = parseFloat(document.getElementById('cacheHitMultiplier').value);
-        const calculateToMax = document.getElementById('calculateToMax').checked;
         
-        // Проверка валидности входных данных
-        if (trimmedSize > maxPromptSize) {
-            alert('Размер после обрезки не может быть больше максимального размера промта');
-            document.getElementById('loading').style.display = 'none';
-            return;
+        document.querySelectorAll('.theme-dropdown li').forEach(li => {
+            li.addEventListener('click', function(e) {
+                e.stopPropagation();
+                setTheme(this.getAttribute('data-theme'));
+                document.querySelector('.theme-dropdown').classList.remove('show');
+            });
+        });
+    }
+    
+    function setTheme(theme) {
+        let actualTheme = theme;
+        
+        if (theme === 'auto') {
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            actualTheme = prefersDarkScheme ? 'dark' : 'light';
         }
+        
+        document.documentElement.setAttribute('data-theme', actualTheme);
+        currentTheme = theme;
+        updateThemeDisplay(theme);
+        localStorage.setItem('preferredTheme', theme);
+    }
+    
+    function updateThemeDisplay(theme) {
+        const themeIcon = document.getElementById('current-theme-icon');
+        
+        if (theme === 'auto') {
+            themeIcon.className = 'fas fa-adjust';
+        } else if (theme === 'light') {
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+        }
+    }
+    
+    function setupSystemThemeListener() {
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (currentTheme === 'auto') {
+                const newTheme = e.matches ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', newTheme);
+            }
+        });
+    }
+    
+    return {
+        init
+    };
+})();
+
+// Управление расчетами и бизнес-логикой
+const CalculationManager = (function() {
+    const defaultParams = {
+        promptSize: 2000,
+        maxPromptSize: 10000,
+        trimmedSize: 5000,
+        modelResponseSize: 250,
+        userMessageSize: 20,
+        iterations: 50,
+        sendingCost: 3,
+        modelCost: 15,
+        cacheMissMultiplier: 1.25,
+        cacheHitMultiplier: 0.1,
+        calculateToMax: true
+    };
+    
+    let allResults = [];
+    
+    function init() {
+        // При инициализации модуля можно добавить дополнительные действия
+    }
+    
+    function getDefaultParams() {
+        return { ...defaultParams };
+    }
+    
+    function calculate() {
+        UIManager.showLoading();
+        
+        // Откладываем вычисления, чтобы дать браузеру время показать индикатор загрузки
+        setTimeout(() => {
+            const params = getInputParameters();
+            
+            // Валидация параметров
+            if (!validateParameters(params)) {
+                UIManager.hideLoading();
+                return;
+            }
+            
+            // Расчет результатов
+            const results = calculateResults(params);
+            
+            // Отображение результатов
+            UIManager.displayResults(results.iterationResults);
+            UIManager.displaySummary(results.summary);
+            
+            UIManager.hideLoading();
+        }, 100);
+    }
+    
+    function getInputParameters() {
+        return {
+            promptSize: parseFloat(document.getElementById('promptSize').value),
+            maxPromptSize: parseFloat(document.getElementById('maxPromptSize').value),
+            trimmedSize: parseFloat(document.getElementById('trimmedSize').value),
+            modelResponseSize: parseFloat(document.getElementById('modelResponseSize').value),
+            userMessageSize: parseFloat(document.getElementById('userMessageSize').value),
+            iterations: parseInt(document.getElementById('iterations').value),
+            sendingCost: parseFloat(document.getElementById('sendingCost').value),
+            modelCost: parseFloat(document.getElementById('modelCost').value),
+            cacheMissMultiplier: parseFloat(document.getElementById('cacheMissMultiplier').value),
+            cacheHitMultiplier: parseFloat(document.getElementById('cacheHitMultiplier').value),
+            calculateToMax: document.getElementById('calculateToMax').checked
+        };
+    }
+    
+    function validateParameters(params) {
+        if (params.trimmedSize > params.maxPromptSize) {
+            alert('Размер после обрезки не может быть больше максимального размера промта');
+            return false;
+        }
+        return true;
+    }
+    
+    function calculateResults(params) {
+        let iterations = params.iterations;
         
         // Если выбрана опция расчета до максимального размера промта
-        if (calculateToMax) {
-            // Рассчитываем количество итераций для достижения максимального размера промта
-            // Формула: (maxPromptSize - promptSize - userMessageSize) / (modelResponseSize + userMessageSize)
-            const messageSize = modelResponseSize + userMessageSize;
-            iterations = Math.ceil((maxPromptSize - promptSize - userMessageSize) / messageSize);
-            
-            // Убираем обновление поля ввода итераций
-            // document.getElementById('iterations').value = iterations;
+        if (params.calculateToMax) {
+            const messageSize = params.modelResponseSize + params.userMessageSize;
+            iterations = Math.ceil((params.maxPromptSize - params.promptSize - params.userMessageSize) / messageSize);
         }
         
         // Рассчитываем стоимость для каждой итерации
-        let runningPromptSize = promptSize + userMessageSize; // Начинаем с учетом первого сообщения пользователя!
+        let runningPromptSize = params.promptSize + params.userMessageSize;
         let totalCostWithCache = 0;
         let totalCostWithoutCache = 0;
         const results = [];
         
-        // Флаг, показывающий, была ли обрезка
         let wasTrimmed = false;
-        // Счетчик фактического количества итераций
         let actualIterations = 0;
         
         for (let i = 1; i <= iterations; i++) {
             actualIterations++;
-            const sendingTokens = runningPromptSize;
-            const receivingTokens = modelResponseSize;
             
-            // Стоимость без кэша
-            const sendingCostNoCache = sendingTokens * sendingCost / 1000000;
-            const receivingCostNoCache = receivingTokens * modelCost / 1000000;
-            const iterCostNoCache = sendingCostNoCache + receivingCostNoCache;
+            const iterationResult = calculateIterationCost(
+                i, 
+                runningPromptSize, 
+                params.modelResponseSize, 
+                params.promptSize,
+                params.userMessageSize,
+                params.sendingCost, 
+                params.modelCost, 
+                params.cacheMissMultiplier, 
+                params.cacheHitMultiplier, 
+                wasTrimmed
+            );
             
-            // Стоимость с кэшем
-            let cacheHitTokens, cacheMissTokens;
-            
-            if (i === 1 || wasTrimmed) {
-                // Первая итерация или после обрезки - особая логика
-                if (wasTrimmed) {
-                    // После обрезки только начальный промт в кэше
-                    cacheHitTokens = promptSize; 
-                    cacheMissTokens = sendingTokens - promptSize;
-                } else {
-                    // Первая итерация - ничего в кэше нет
-                    cacheHitTokens = 0;
-                    cacheMissTokens = sendingTokens;
-                }
-                wasTrimmed = false; // Сбрасываем флаг обрезки
-            } else {
-                // В обычной ситуации в кэше всё, кроме последнего ответа модели и сообщения пользователя
-                cacheHitTokens = sendingTokens - (modelResponseSize + userMessageSize);
-                cacheMissTokens = modelResponseSize + userMessageSize;
-            }
-            
-            const sendingCostWithCache = 
-                (cacheHitTokens * sendingCost * cacheHitMultiplier / 1000000) + 
-                (cacheMissTokens * sendingCost * cacheMissMultiplier / 1000000);
-                
-            const iterCostWithCache = sendingCostWithCache + receivingCostNoCache;
-            
-            // Разница
-            const difference = iterCostNoCache - iterCostWithCache;
-            const differencePercent = (difference / iterCostNoCache) * 100;
-            
-            // Сохранение результатов
-            results.push({
-                iteration: i,
-                promptSize: runningPromptSize,
-                costWithCache: iterCostWithCache,
-                costWithoutCache: iterCostNoCache,
-                difference: difference,
-                differencePercent: differencePercent
-            });
+            results.push(iterationResult);
             
             // Отслеживание общей стоимости
-            totalCostWithCache += iterCostWithCache;
-            totalCostWithoutCache += iterCostNoCache;
+            totalCostWithCache += iterationResult.costWithCache;
+            totalCostWithoutCache += iterationResult.costWithoutCache;
             
             // Увеличение размера промта для следующей итерации
-            runningPromptSize += modelResponseSize + userMessageSize;
+            runningPromptSize += params.modelResponseSize + params.userMessageSize;
             
             // Проверка на превышение максимального размера
-            if (runningPromptSize > maxPromptSize) {
-                if (calculateToMax) {
-                    // Если выбрана опция расчета до максимального размера, заканчиваем вычисления
+            if (runningPromptSize > params.maxPromptSize) {
+                if (params.calculateToMax) {
                     break;
                 }
-                runningPromptSize = trimmedSize;
-                wasTrimmed = true; // Устанавливаем флаг обрезки
+                runningPromptSize = params.trimmedSize;
+                wasTrimmed = true;
+            } else {
+                wasTrimmed = false;
             }
         }
         
-        // Отображение результатов в таблице
-        displayResults(results);
-        
-        // Отображение итогового результата
+        // Подготовка итоговых данных
         const totalDifference = totalCostWithoutCache - totalCostWithCache;
         const totalDifferencePercent = (totalDifference / totalCostWithoutCache) * 100;
         
-        // Сохраняем данные сводки для обновления при смене языка
-        summaryData = {
-            totalCostWithCache,
-            totalCostWithoutCache,
-            totalDifference,
-            totalDifferencePercent,
-            iterations: actualIterations
+        return {
+            iterationResults: results,
+            summary: {
+                totalCostWithCache,
+                totalCostWithoutCache,
+                totalDifference,
+                totalDifferencePercent,
+                iterations: actualIterations
+            }
         };
+    }
+    
+    function calculateIterationCost(iteration, sendingTokens, receivingTokens, promptSize, userMessageSize, sendingCost, modelCost, cacheMissMultiplier, cacheHitMultiplier, wasTrimmed) {
+        // Стоимость без кэша
+        const sendingCostNoCache = sendingTokens * sendingCost / 1000000;
+        const receivingCostNoCache = receivingTokens * modelCost / 1000000;
+        const iterCostNoCache = sendingCostNoCache + receivingCostNoCache;
         
-        displaySummary(totalCostWithCache, totalCostWithoutCache, totalDifference, totalDifferencePercent, actualIterations);
+        // Стоимость с кэшем
+        let cacheHitTokens, cacheMissTokens;
         
-        // Скрываем индикатор загрузки
+        if (iteration === 1 || wasTrimmed) {
+            if (wasTrimmed) {
+                // После обрезки только начальный промт в кэше
+                cacheHitTokens = promptSize; 
+                cacheMissTokens = sendingTokens - promptSize;
+            } else {
+                // Первая итерация - ничего в кэше нет
+                cacheHitTokens = 0;
+                cacheMissTokens = sendingTokens;
+            }
+        } else {
+            // В обычной ситуации в кэше всё, кроме последнего ответа модели и сообщения пользователя
+            cacheHitTokens = sendingTokens - (receivingTokens + userMessageSize);
+            cacheMissTokens = receivingTokens + userMessageSize;
+        }
+        
+        const sendingCostWithCache = 
+            (cacheHitTokens * sendingCost * cacheHitMultiplier / 1000000) + 
+            (cacheMissTokens * sendingCost * cacheMissMultiplier / 1000000);
+            
+        const iterCostWithCache = sendingCostWithCache + receivingCostNoCache;
+        
+        // Разница
+        const difference = iterCostNoCache - iterCostWithCache;
+        const differencePercent = (difference / iterCostNoCache) * 100;
+        
+        return {
+            iteration,
+            promptSize: sendingTokens,
+            costWithCache: iterCostWithCache,
+            costWithoutCache: iterCostNoCache,
+            difference,
+            differencePercent
+        };
+    }
+    
+    return {
+        init,
+        getDefaultParams,
+        calculate
+    };
+})();
+
+// Управление интерфейсом пользователя
+const UIManager = (function() {
+    const rowsPerPage = 50;
+    let currentPage = 1;
+    let allResults = [];
+    let summaryData = {
+        totalCostWithCache: 0,
+        totalCostWithoutCache: 0,
+        totalDifference: 0,
+        totalDifferencePercent: 0,
+        iterations: 0
+    };
+    
+    function showLoading() {
+        document.getElementById('loading').style.display = 'block';
+    }
+    
+    function hideLoading() {
         document.getElementById('loading').style.display = 'none';
-    }, 100); // Небольшая задержка, чтобы показать индикатор загрузки
-}
-
-function displayResults(results) {
-    allResults = results;
-    displayPage(1);
-}
-
-function displayPage(page) {
-    currentPage = page;
-    const tableBody = document.getElementById('resultsBody');
-    tableBody.innerHTML = '';
-    
-    const start = (page - 1) * rowsPerPage;
-    const end = start + rowsPerPage;
-    const paginatedResults = allResults.slice(start, end);
-    
-    paginatedResults.forEach(result => {
-        const row = document.createElement('tr');
-        
-        const iterationCell = document.createElement('td');
-        iterationCell.textContent = result.iteration;
-        row.appendChild(iterationCell);
-        
-        const promptSizeCell = document.createElement('td');
-        promptSizeCell.textContent = result.promptSize.toLocaleString();
-        row.appendChild(promptSizeCell);
-        
-        const costWithCacheCell = document.createElement('td');
-        costWithCacheCell.textContent = '$' + result.costWithCache.toFixed(8);
-        row.appendChild(costWithCacheCell);
-        
-        const costWithoutCacheCell = document.createElement('td');
-        costWithoutCacheCell.textContent = '$' + result.costWithoutCache.toFixed(8);
-        row.appendChild(costWithoutCacheCell);
-        
-        const differenceCell = document.createElement('td');
-        differenceCell.textContent = '$' + result.difference.toFixed(8);
-        differenceCell.className = result.difference >= 0 ? 'positive' : 'negative';
-        row.appendChild(differenceCell);
-        
-        const differencePercentCell = document.createElement('td');
-        differencePercentCell.textContent = result.differencePercent.toFixed(4) + '%';
-        differencePercentCell.className = result.differencePercent >= 0 ? 'positive' : 'negative';
-        row.appendChild(differencePercentCell);
-        
-        tableBody.appendChild(row);
-    });
-    
-    updatePaginationControls();
-}
-
-function updatePaginationControls() {
-    const totalPages = Math.ceil(allResults.length / rowsPerPage);
-    const prevButton = document.getElementById('prevPage');
-    const nextButton = document.getElementById('nextPage');
-    const pageInfo = document.getElementById('pageInfo');
-    const paginationContainer = document.querySelector('.pagination');
-
-    prevButton.disabled = currentPage === 1;
-    nextButton.disabled = currentPage === totalPages;
-
-    // Исправляем формат отображения страниц
-    const pageText = t('results.page');
-    const ofText = t('results.of');
-    pageInfo.textContent = `${pageText} ${currentPage} ${ofText} ${totalPages}`;
-
-    // Скрываем пагинацию, если всего одна страница
-    paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
-
-    // Удаляем предыдущие номера страниц, если есть
-    const existingPageNumbers = document.querySelector('.page-numbers');
-    if (existingPageNumbers) {
-        paginationContainer.removeChild(existingPageNumbers);
     }
-
-    // Создаем контейнер для номеров страниц
-    const pageNumbersContainer = document.createElement('div');
-    pageNumbersContainer.className = 'page-numbers';
-
-    // Определяем, сколько страниц показывать до и после текущей
-    const maxVisiblePages = 10; // Максимальное количество видимых страниц
-    const siblingsCount = 2; // Количество страниц до и после текущей
     
-    let startPage = Math.max(1, currentPage - siblingsCount);
-    let endPage = Math.min(totalPages, currentPage + siblingsCount);
+    function displayResults(results) {
+        allResults = results;
+        displayPage(1);
+    }
     
-    // Добавляем кнопки для перехода в начало и конец
-    const showStartEllipsis = startPage > 1;
-    const showEndEllipsis = endPage < totalPages;
+    function displayPage(page) {
+        currentPage = page;
+        const tableBody = document.getElementById('resultsBody');
+        tableBody.innerHTML = '';
+        
+        const start = (page - 1) * rowsPerPage;
+        const end = start + rowsPerPage;
+        const paginatedResults = allResults.slice(start, end);
+        
+        paginatedResults.forEach(result => {
+            const row = document.createElement('tr');
+            
+            appendCell(row, result.iteration);
+            appendCell(row, result.promptSize.toLocaleString());
+            appendCell(row, '$' + result.costWithCache.toFixed(8));
+            appendCell(row, '$' + result.costWithoutCache.toFixed(8));
+            
+            const diffCell = appendCell(row, '$' + result.difference.toFixed(8));
+            diffCell.className = result.difference >= 0 ? 'positive' : 'negative';
+            
+            const percentCell = appendCell(row, result.differencePercent.toFixed(4) + '%');
+            percentCell.className = result.differencePercent >= 0 ? 'positive' : 'negative';
+            
+            tableBody.appendChild(row);
+        });
+        
+        updatePaginationControls();
+    }
     
-    // Корректируем количество отображаемых страниц, если общее число страниц не превышает maxVisiblePages
-    if (totalPages <= maxVisiblePages) {
-        startPage = 1;
-        endPage = totalPages;
-    } else {
-        // Если мы находимся ближе к началу, показываем больше страниц справа
-        if (currentPage <= siblingsCount + 1) {
-            endPage = Math.min(maxVisiblePages - 1, totalPages);
-        } 
-        // Если мы находимся ближе к концу, показываем больше страниц слева
-        else if (currentPage >= totalPages - siblingsCount) {
-            startPage = Math.max(1, totalPages - maxVisiblePages + 2);
-        }
-        // В остальных случаях равномерно распределяем страницы
-        else {
-            const pagesBeforeAndAfter = Math.floor((maxVisiblePages - 3) / 2);
-            startPage = Math.max(1, currentPage - pagesBeforeAndAfter);
-            endPage = Math.min(totalPages, currentPage + pagesBeforeAndAfter);
+    function appendCell(row, text) {
+        const cell = document.createElement('td');
+        cell.textContent = text;
+        row.appendChild(cell);
+        return cell;
+    }
+    
+    function navigatePage(direction) {
+        const totalPages = Math.ceil(allResults.length / rowsPerPage);
+        const newPage = currentPage + direction;
+        
+        if (newPage >= 1 && newPage <= totalPages) {
+            displayPage(newPage);
         }
     }
     
-    // Добавляем кнопку для первой страницы
-    if (showStartEllipsis) {
-        const firstPageBtn = document.createElement('button');
-        firstPageBtn.textContent = '1';
-        firstPageBtn.className = 'page-number';
-        firstPageBtn.addEventListener('click', () => displayPage(1));
-        pageNumbersContainer.appendChild(firstPageBtn);
-        
-        // Добавляем многоточие, если нужно
-        if (startPage > 2) {
-            const ellipsis = document.createElement('span');
-            ellipsis.textContent = '...';
-            ellipsis.className = 'ellipsis';
-            pageNumbersContainer.appendChild(ellipsis);
+    function updatePaginationControls() {
+        const totalPages = Math.ceil(allResults.length / rowsPerPage);
+        const prevButton = document.getElementById('prevPage');
+        const nextButton = document.getElementById('nextPage');
+        const pageInfo = document.getElementById('pageInfo');
+        const paginationContainer = document.querySelector('.pagination');
+
+        prevButton.disabled = currentPage === 1;
+        nextButton.disabled = currentPage === totalPages;
+
+        const pageText = LanguageManager.t('results.page');
+        const ofText = LanguageManager.t('results.of');
+        pageInfo.textContent = `${pageText} ${currentPage} ${ofText} ${totalPages}`;
+
+        paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
+
+        // Обновление номеров страниц
+        updatePageNumbers(totalPages);
+    }
+    
+    function updatePageNumbers(totalPages) {
+        // Удаляем предыдущие номера страниц
+        const existingPageNumbers = document.querySelector('.page-numbers');
+        if (existingPageNumbers) {
+            existingPageNumbers.remove();
         }
-    }
-    
-    // Добавляем номера страниц
-    for (let i = startPage; i <= endPage; i++) {
-        const pageNumber = document.createElement('button');
-        pageNumber.textContent = i;
-        pageNumber.className = i === currentPage ? 'page-number active' : 'page-number';
-        pageNumber.disabled = (i === currentPage);
-        pageNumber.addEventListener('click', () => displayPage(i));
-        pageNumbersContainer.appendChild(pageNumber);
-    }
-    
-    // Добавляем кнопку для последней страницы
-    if (showEndEllipsis) {
-        // Добавляем многоточие, если нужно
-        if (endPage < totalPages - 1) {
-            const ellipsis = document.createElement('span');
-            ellipsis.textContent = '...';
-            ellipsis.className = 'ellipsis';
-            pageNumbersContainer.appendChild(ellipsis);
+
+        const paginationContainer = document.querySelector('.pagination');
+        const pageNumbersContainer = document.createElement('div');
+        pageNumbersContainer.className = 'page-numbers';
+
+        const maxVisiblePages = 10;
+        const siblingsCount = 2;
+        
+        let startPage = Math.max(1, currentPage - siblingsCount);
+        let endPage = Math.min(totalPages, currentPage + siblingsCount);
+        
+        // Оптимизируем отображение страниц
+        if (totalPages <= maxVisiblePages) {
+            startPage = 1;
+            endPage = totalPages;
+        } else {
+            if (currentPage <= siblingsCount + 1) {
+                endPage = Math.min(maxVisiblePages - 1, totalPages);
+            } else if (currentPage >= totalPages - siblingsCount) {
+                startPage = Math.max(1, totalPages - maxVisiblePages + 2);
+            } else {
+                const pagesBeforeAndAfter = Math.floor((maxVisiblePages - 3) / 2);
+                startPage = Math.max(1, currentPage - pagesBeforeAndAfter);
+                endPage = Math.min(totalPages, currentPage + pagesBeforeAndAfter);
+            }
         }
         
-        const lastPageBtn = document.createElement('button');
-        lastPageBtn.textContent = totalPages;
-        lastPageBtn.className = 'page-number';
-        lastPageBtn.addEventListener('click', () => displayPage(totalPages));
-        pageNumbersContainer.appendChild(lastPageBtn);
+        // Первая страница и многоточие
+        if (startPage > 1) {
+            appendPageButton(pageNumbersContainer, 1);
+            
+            if (startPage > 2) {
+                appendEllipsis(pageNumbersContainer);
+            }
+        }
+        
+        // Номера страниц
+        for (let i = startPage; i <= endPage; i++) {
+            appendPageButton(pageNumbersContainer, i, i === currentPage);
+        }
+        
+        // Последняя страница и многоточие
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) {
+                appendEllipsis(pageNumbersContainer);
+            }
+            
+            appendPageButton(pageNumbersContainer, totalPages);
+        }
+        
+        paginationContainer.appendChild(pageNumbersContainer);
     }
     
-    paginationContainer.appendChild(pageNumbersContainer);
+    function appendPageButton(container, pageNum, isActive = false) {
+        const button = document.createElement('button');
+        button.textContent = pageNum;
+        button.className = isActive ? 'page-number active' : 'page-number';
+        button.disabled = isActive;
+        button.addEventListener('click', () => displayPage(pageNum));
+        container.appendChild(button);
+    }
+    
+    function appendEllipsis(container) {
+        const ellipsis = document.createElement('span');
+        ellipsis.textContent = '...';
+        ellipsis.className = 'ellipsis';
+        container.appendChild(ellipsis);
+    }
+    
+    function displaySummary(summary) {
+        summaryData = summary;
+        updateSummary();
+    }
+    
+    function updateSummary() {
+        if (summaryData.iterations === 0) return;
+        
+        const summaryDiv = document.getElementById('summary');
+        summaryDiv.style.display = 'block';
+        
+        const titleText = LanguageManager.t('summary.title');
+        const withCacheText = LanguageManager.t('summary.totalCostWithCache');
+        const withoutCacheText = LanguageManager.t('summary.totalCostWithoutCache');
+        const savingsText = LanguageManager.t('summary.savings');
+        const iterationsText = LanguageManager.t('summary.iterations');
+        
+        const summaryHTML = `
+            <h3>${titleText}</h3>
+            <p>${withCacheText} <strong>$${summaryData.totalCostWithCache.toFixed(8)}</strong></p>
+            <p>${withoutCacheText} <strong>$${summaryData.totalCostWithoutCache.toFixed(8)}</strong></p>
+            <p>${savingsText} <strong class="${summaryData.totalDifference >= 0 ? 'positive' : 'negative'}">
+                $${summaryData.totalDifference.toFixed(8)} (${summaryData.totalDifferencePercent.toFixed(4)}%)
+            </strong></p>
+            <p>${iterationsText} <strong>${summaryData.iterations}</strong></p>
+        `;
+        
+        summaryDiv.innerHTML = summaryHTML;
+    }
+    
+    return {
+        showLoading,
+        hideLoading,
+        displayResults,
+        displayPage,
+        navigatePage,
+        updatePaginationControls,
+        displaySummary,
+        updateSummary
+    };
+})();
+
+// Инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', App.init);
+
+// Глобальные функции для обратной совместимости с HTML-кодом
+function resetParameters() {
+    App.resetParameters();
 }
 
-// Добавляем обработчики событий для кнопок пагинации
-document.getElementById('prevPage').addEventListener('click', () => {
-    if (currentPage > 1) {
-        displayPage(currentPage - 1);
-    }
-});
-
-document.getElementById('nextPage').addEventListener('click', () => {
-    const totalPages = Math.ceil(allResults.length / rowsPerPage);
-    if (currentPage < totalPages) {
-        displayPage(currentPage + 1);
-    }
-});
-
-function displaySummary(totalCostWithCache, totalCostWithoutCache, totalDifference, totalDifferencePercent, iterations) {
-    const summaryDiv = document.getElementById('summary');
-    summaryDiv.style.display = 'block';
-    
-    // Получаем все тексты перевода заранее
-    const titleText = t('summary.title');
-    const withCacheText = t('summary.totalCostWithCache');
-    const withoutCacheText = t('summary.totalCostWithoutCache');
-    const savingsText = t('summary.savings');
-    const iterationsText = t('summary.iterations');
-    
-    const summaryHTML = `
-        <h3>${titleText}</h3>
-        <p>${withCacheText} <strong>$${totalCostWithCache.toFixed(8)}</strong></p>
-        <p>${withoutCacheText} <strong>$${totalCostWithoutCache.toFixed(8)}</strong></p>
-        <p>${savingsText} <strong class="${totalDifference >= 0 ? 'positive' : 'negative'}">
-            $${totalDifference.toFixed(8)} (${totalDifferencePercent.toFixed(4)}%)
-        </strong></p>
-        <p>${iterationsText} <strong>${iterations}</strong></p>
-    `;
-    
-    summaryDiv.innerHTML = summaryHTML;
+function calculateResults() {
+    CalculationManager.calculate();
 }
-
-// Сохраняем оригинальные данные сводки для обновления при смене языка
-let summaryData = {
-    totalCostWithCache: 0,
-    totalCostWithoutCache: 0,
-    totalDifference: 0,
-    totalDifferencePercent: 0,
-    iterations: 0
-};
-
-// Обновление сводки при смене языка
-function updateSummary() {
-    if (summaryData.iterations > 0) {
-        displaySummary(
-            summaryData.totalCostWithCache, 
-            summaryData.totalCostWithoutCache, 
-            summaryData.totalDifference, 
-            summaryData.totalDifferencePercent, 
-            summaryData.iterations
-        );
-    }
-}
-
-// Выполняем инициализацию при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    initLanguage();  // Инициализация локализации
-    initTheme();     // Инициализация темы
-    setupSystemThemeListener(); // Настройка отслеживания системной темы
-    calculateResults();  // Рассчет результатов по умолчанию
-});
