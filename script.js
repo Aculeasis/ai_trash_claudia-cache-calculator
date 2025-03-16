@@ -359,7 +359,7 @@ function calculateResults() {
                 costWithCache: iterCostWithCache,
                 costWithoutCache: iterCostNoCache,
                 difference: difference,
-                differencePercent: difference.toFixed(4)
+                differencePercent: differencePercent
             });
             
             // Отслеживание общей стоимости
@@ -442,7 +442,7 @@ function displayPage(page) {
         row.appendChild(differenceCell);
         
         const differencePercentCell = document.createElement('td');
-        differencePercentCell.textContent = result.differencePercent + '%';
+        differencePercentCell.textContent = result.differencePercent.toFixed(4) + '%';
         differencePercentCell.className = result.differencePercent >= 0 ? 'positive' : 'negative';
         row.appendChild(differencePercentCell);
         
