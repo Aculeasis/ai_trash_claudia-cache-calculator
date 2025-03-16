@@ -8,7 +8,7 @@
         "modelResponseSize": "Tamanho da Resposta do Modelo:",
         "userMessageSize": "Tamanho da Mensagem do Usuário:",
         "iterations": "Número de Iterações:",
-        "calculateToMax": "Calcular até o tamanho máximo do prompt (sem corte)",
+        "calculateToMax": "Usar tamanho máximo (sem corte)",
         "sendingCost": "Custo de Entrada (por 1M tokens):",
         "modelCost": "Custo de Saída (por 1M tokens):",
         "cacheMissMultiplier": "Multiplicador de Cache Miss:",

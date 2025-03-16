@@ -8,7 +8,7 @@
         "modelResponseSize": "Ereduaren Erantzun Tamaina:",
         "userMessageSize": "Erabiltzailearen Mezu Tamaina:",
         "iterations": "Iterazio Kopurua:",
-        "calculateToMax": "Kalkulatu gehienezko prompt tamainara arte (mozketarik gabe)",
+        "calculateToMax": "Gehienezko tamaina erabili (mozketarik gabe)",
         "sendingCost": "Sarrera Kostua (1M token bakoitzeko):",
         "modelCost": "Irteera Kostua (1M token bakoitzeko):",
         "cacheMissMultiplier": "Cache Miss Biderkatzailea:",

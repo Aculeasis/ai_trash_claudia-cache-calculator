@@ -8,7 +8,7 @@
     "modelResponseSize": "モデルレスポンスサイズ:",
     "userMessageSize": "ユーザーメッセージサイズ:",
     "iterations": "繰り返し回数:",
-    "calculateToMax": "最大プロンプトサイズまで計算（トリミングなし）",
+    "calculateToMax": "最大サイズを使用（トリミングなし）",
     "sendingCost": "入力コスト（100万トークンあたり）:",
     "modelCost": "出力コスト（100万トークンあたり）:",
     "cacheMissMultiplier": "キャッシュミス乗数:",

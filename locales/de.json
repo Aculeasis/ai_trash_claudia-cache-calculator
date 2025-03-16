@@ -8,7 +8,7 @@
     "modelResponseSize": "Modell-Antwortgröße:",
     "userMessageSize": "Benutzernachrichtengröße:",
     "iterations": "Anzahl der Iterationen:",
-    "calculateToMax": "Bis zur maximalen Prompt-Größe berechnen (ohne Kürzung)",
+    "calculateToMax": "Max. Größe verwenden (ohne Kürzung)",
     "sendingCost": "Eingabekosten (pro 1M Token):",
     "modelCost": "Ausgabekosten (pro 1M Token):",
     "cacheMissMultiplier": "Cache-Miss-Multiplikator:",

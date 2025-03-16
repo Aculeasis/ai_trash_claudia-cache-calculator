@@ -8,7 +8,7 @@
     "modelResponseSize": "גודל תשובת המודל:",
     "userMessageSize": "גודל הודעת משתמש:",
     "iterations": "מספר חזרות:",
-    "calculateToMax": "חשב עד לגודל ההנחיה המקסימלי (ללא קיצוץ)",
+    "calculateToMax": "השתמש בגודל מקסימלי (ללא קיצוץ)",
     "sendingCost": "עלות קלט (ל-1M טוקנים):",
     "modelCost": "עלות פלט (ל-1M טוקנים):",
     "cacheMissMultiplier": "מכפיל החטאת מטמון:",

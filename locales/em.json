@@ -8,7 +8,7 @@
         "modelResponseSize": "🤖 💬 🔢:",
         "userMessageSize": "👤 💬 🔢:",
         "iterations": "🔄 🔢:",
-        "calculateToMax": "🧮 ➡️ 🔤 🔢 ⬆️ (❌ ✂️)",
+        "calculateToMax": "🔄 🔝 🔢 (❌ ✂️)",
         "sendingCost": "📤 💰 (1️⃣Ⓜ️ 🔤):",
         "modelCost": "📥 💰 (1️⃣Ⓜ️ 🔤):",
         "cacheMissMultiplier": "🧠 ❌ ✖️:",

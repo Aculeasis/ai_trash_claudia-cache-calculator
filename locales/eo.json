@@ -8,7 +8,7 @@
         "modelResponseSize": "Modelo Responda Grandeco:",
         "userMessageSize": "Uzanta Mesaĝa Grandeco:",
         "iterations": "Nombro da Iteracioj:",
-        "calculateToMax": "Kalkuli ĝis maksimuma invita grandeco (sen tondado)",
+        "calculateToMax": "Uzi maksimuman grandecon (sen tondado)",
         "sendingCost": "Eniga Kosto (por 1M ĵetonoj):",
         "modelCost": "Eliga Kosto (por 1M ĵetonoj):",
         "cacheMissMultiplier": "Kaŝmemora Maltrafoj Multiplikanto:",

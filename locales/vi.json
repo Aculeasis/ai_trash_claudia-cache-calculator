@@ -8,7 +8,7 @@
     "modelResponseSize": "Kích thước phản hồi mô hình:",
     "userMessageSize": "Kích thước tin nhắn người dùng:",
     "iterations": "Số lần lặp:",
-    "calculateToMax": "Tính đến kích thước lời nhắc tối đa (không cắt)",
+    "calculateToMax": "Sử dụng kích thước tối đa (không cắt)",
     "sendingCost": "Chi phí đầu vào (mỗi 1M token):",
     "modelCost": "Chi phí đầu ra (mỗi 1M token):",
     "cacheMissMultiplier": "Hệ số bộ nhớ đệm trượt:",

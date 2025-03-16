@@ -1,6 +1,8 @@
 // Глобальная переменная для текущего языка
 let currentLang = 'en';
 let translations = {};
+// Глобальная переменная для текущей темы
+let currentTheme = 'dark';
 
 // Загрузка переводов
 async function loadTranslations() {
@@ -143,6 +145,89 @@ function initLanguage() {
     });
 }
 
+// Инициализация темы
+function initTheme() {
+    // Проверяем сохраненную тему в localStorage
+    const savedTheme = localStorage.getItem('preferredTheme');
+    
+    if (savedTheme) {
+        // Используем сохраненную тему
+        setTheme(savedTheme);
+    } else {
+        // По умолчанию используем темную тему
+        setTheme('dark');
+    }
+    
+    // Обработчик клика по селектору темы
+    document.querySelector('.selected-theme').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.querySelector('.theme-dropdown').classList.toggle('show');
+    });
+    
+    // Закрытие меню при клике в другом месте
+    document.addEventListener('click', function() {
+        document.querySelector('.theme-dropdown').classList.remove('show');
+    });
+    
+    // Добавляем обработчики событий для переключения темы
+    document.querySelectorAll('.theme-dropdown li').forEach(li => {
+        li.addEventListener('click', function(e) {
+            e.stopPropagation();
+            setTheme(this.getAttribute('data-theme'));
+            document.querySelector('.theme-dropdown').classList.remove('show');
+        });
+    });
+}
+
+// Функция установки темы
+function setTheme(theme) {
+    let actualTheme = theme;
+    
+    // Если выбрана автоматическая тема, определяем на основе системных настроек
+    if (theme === 'auto') {
+        // Проверяем предпочтения системы
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        actualTheme = prefersDarkScheme ? 'dark' : 'light';
+    }
+    
+    // Устанавливаем атрибут темы для корневого элемента
+    document.documentElement.setAttribute('data-theme', actualTheme);
+    
+    // Обновляем текущую тему
+    currentTheme = theme;
+    
+    // Обновляем отображение текущей темы
+    updateThemeDisplay(theme);
+    
+    // Сохраняем выбранную тему в localStorage
+    localStorage.setItem('preferredTheme', theme);
+}
+
+// Функция обновления отображения текущей темы
+function updateThemeDisplay(theme) {
+    // Обновляем только иконку
+    const themeIcon = document.getElementById('current-theme-icon');
+    
+    // Устанавливаем соответствующую иконку
+    if (theme === 'auto') {
+        themeIcon.className = 'fas fa-adjust';
+    } else if (theme === 'light') {
+        themeIcon.className = 'fas fa-sun';
+    } else {
+        themeIcon.className = 'fas fa-moon';
+    }
+}
+
+// Отслеживание изменений системной темы для режима 'auto'
+function setupSystemThemeListener() {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (currentTheme === 'auto') {
+            const newTheme = e.matches ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+        }
+    });
+}
+
 // Дефолтные значения параметров
 const defaultParams = {
     promptSize: 2000,
@@ -274,7 +359,7 @@ function calculateResults() {
                 costWithCache: iterCostWithCache,
                 costWithoutCache: iterCostNoCache,
                 difference: difference,
-                differencePercent: differencePercent.toFixed(4)
+                differencePercent: difference.toFixed(4)
             });
             
             // Отслеживание общей стоимости
@@ -385,23 +470,92 @@ function updatePaginationControls() {
     // Скрываем пагинацию, если всего одна страница
     paginationContainer.style.display = totalPages <= 1 ? 'none' : 'flex';
 
-    // Добавляем номера страниц
-    const pageNumbersContainer = document.createElement('div');
-    pageNumbersContainer.className = 'page-numbers';
-    for (let i = 1; i <= totalPages; i++) {
-        const pageNumber = document.createElement('button');
-        pageNumber.textContent = i;
-        pageNumber.className = 'page-number';
-        pageNumber.disabled = (i === currentPage);
-        pageNumber.addEventListener('click', () => displayPage(i));
-        pageNumbersContainer.appendChild(pageNumber);
-    }
-
     // Удаляем предыдущие номера страниц, если есть
     const existingPageNumbers = document.querySelector('.page-numbers');
     if (existingPageNumbers) {
         paginationContainer.removeChild(existingPageNumbers);
     }
+
+    // Создаем контейнер для номеров страниц
+    const pageNumbersContainer = document.createElement('div');
+    pageNumbersContainer.className = 'page-numbers';
+
+    // Определяем, сколько страниц показывать до и после текущей
+    const maxVisiblePages = 10; // Максимальное количество видимых страниц
+    const siblingsCount = 2; // Количество страниц до и после текущей
+    
+    let startPage = Math.max(1, currentPage - siblingsCount);
+    let endPage = Math.min(totalPages, currentPage + siblingsCount);
+    
+    // Добавляем кнопки для перехода в начало и конец
+    const showStartEllipsis = startPage > 1;
+    const showEndEllipsis = endPage < totalPages;
+    
+    // Корректируем количество отображаемых страниц, если общее число страниц не превышает maxVisiblePages
+    if (totalPages <= maxVisiblePages) {
+        startPage = 1;
+        endPage = totalPages;
+    } else {
+        // Если мы находимся ближе к началу, показываем больше страниц справа
+        if (currentPage <= siblingsCount + 1) {
+            endPage = Math.min(maxVisiblePages - 1, totalPages);
+        } 
+        // Если мы находимся ближе к концу, показываем больше страниц слева
+        else if (currentPage >= totalPages - siblingsCount) {
+            startPage = Math.max(1, totalPages - maxVisiblePages + 2);
+        }
+        // В остальных случаях равномерно распределяем страницы
+        else {
+            const pagesBeforeAndAfter = Math.floor((maxVisiblePages - 3) / 2);
+            startPage = Math.max(1, currentPage - pagesBeforeAndAfter);
+            endPage = Math.min(totalPages, currentPage + pagesBeforeAndAfter);
+        }
+    }
+    
+    // Добавляем кнопку для первой страницы
+    if (showStartEllipsis) {
+        const firstPageBtn = document.createElement('button');
+        firstPageBtn.textContent = '1';
+        firstPageBtn.className = 'page-number';
+        firstPageBtn.addEventListener('click', () => displayPage(1));
+        pageNumbersContainer.appendChild(firstPageBtn);
+        
+        // Добавляем многоточие, если нужно
+        if (startPage > 2) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.className = 'ellipsis';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+    }
+    
+    // Добавляем номера страниц
+    for (let i = startPage; i <= endPage; i++) {
+        const pageNumber = document.createElement('button');
+        pageNumber.textContent = i;
+        pageNumber.className = i === currentPage ? 'page-number active' : 'page-number';
+        pageNumber.disabled = (i === currentPage);
+        pageNumber.addEventListener('click', () => displayPage(i));
+        pageNumbersContainer.appendChild(pageNumber);
+    }
+    
+    // Добавляем кнопку для последней страницы
+    if (showEndEllipsis) {
+        // Добавляем многоточие, если нужно
+        if (endPage < totalPages - 1) {
+            const ellipsis = document.createElement('span');
+            ellipsis.textContent = '...';
+            ellipsis.className = 'ellipsis';
+            pageNumbersContainer.appendChild(ellipsis);
+        }
+        
+        const lastPageBtn = document.createElement('button');
+        lastPageBtn.textContent = totalPages;
+        lastPageBtn.className = 'page-number';
+        lastPageBtn.addEventListener('click', () => displayPage(totalPages));
+        pageNumbersContainer.appendChild(lastPageBtn);
+    }
+    
     paginationContainer.appendChild(pageNumbersContainer);
 }
 
@@ -468,5 +622,7 @@ function updateSummary() {
 // Выполняем инициализацию при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     initLanguage();  // Инициализация локализации
+    initTheme();     // Инициализация темы
+    setupSystemThemeListener(); // Настройка отслеживания системной темы
     calculateResults();  // Рассчет результатов по умолчанию
-}); 
+});

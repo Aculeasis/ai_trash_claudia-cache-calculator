@@ -8,7 +8,7 @@
         "modelResponseSize": "Μέγεθος Απάντησης Μοντέλου:",
         "userMessageSize": "Μέγεθος Μηνύματος Χρήστη:",
         "iterations": "Αριθμός Επαναλήψεων:",
-        "calculateToMax": "Υπολογισμός μέχρι μέγιστο μέγεθος prompt (χωρίς περικοπή)",
+        "calculateToMax": "Χρήση μέγιστου μεγέθους (χωρίς περικοπή)",
         "sendingCost": "Κόστος Εισόδου (ανά 1M tokens):",
         "modelCost": "Κόστος Εξόδου (ανά 1M tokens):",
         "cacheMissMultiplier": "Πολλαπλασιαστής Αποτυχίας Cache:",

@@ -8,7 +8,7 @@
     "modelResponseSize": "模型响应大小：",
     "userMessageSize": "用户消息大小：",
     "iterations": "迭代次数：",
-    "calculateToMax": "计算到最大提示词大小（不裁剪）",
+    "calculateToMax": "使用最大尺寸（不裁剪）",
     "sendingCost": "输入成本（每1M令牌）：",
     "modelCost": "输出成本（每1M令牌）：",
     "cacheMissMultiplier": "缓存未命中乘数：",

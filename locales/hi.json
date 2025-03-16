@@ -8,7 +8,7 @@
         "modelResponseSize": "मॉडल प्रतिक्रिया आकार:",
         "userMessageSize": "उपयोगकर्ता संदेश आकार:",
         "iterations": "पुनरावृत्तियों की संख्या:",
-        "calculateToMax": "अधिकतम प्रॉम्प्ट आकार तक गणना करें (काटने के बिना)",
+        "calculateToMax": "अधिकतम आकार का उपयोग करें (बिना काटे)",
         "sendingCost": "इनपुट लागत (प्रति 1M टोकन):",
         "modelCost": "आउटपुट लागत (प्रति 1M टोकन):",
         "cacheMissMultiplier": "कैश मिस गुणक:",

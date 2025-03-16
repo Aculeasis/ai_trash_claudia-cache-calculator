@@ -8,7 +8,7 @@
         "modelResponseSize": "Model Yanıt Boyutu:",
         "userMessageSize": "Kullanıcı Mesaj Boyutu:",
         "iterations": "Yineleme Sayısı:",
-        "calculateToMax": "Maksimum istek boyutuna kadar hesapla (kırpma olmadan)",
+        "calculateToMax": "Maksimum boyutu kullan (kırpma olmadan)",
         "sendingCost": "Giriş Maliyeti (1M token başına):",
         "modelCost": "Çıkış Maliyeti (1M token başına):",
         "cacheMissMultiplier": "Önbellek Kaçırma Çarpanı:",

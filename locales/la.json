@@ -8,7 +8,7 @@
         "modelResponseSize": "Magnitudo Responsi Modelli:",
         "userMessageSize": "Magnitudo Nuntii Utentis:",
         "iterations": "Numerus Iterationum:",
-        "calculateToMax": "Calcula ad magnitudinem maximam prompti (sine truncatione)",
+        "calculateToMax": "Uti magnitudine maxima (sine truncatione)",
         "sendingCost": "Sumptus Inputi (per 1M tesserarum):",
         "modelCost": "Sumptus Outputi (per 1M tesserarum):",
         "cacheMissMultiplier": "Multiplicator Defectus Memoriae:",

@@ -8,7 +8,7 @@
         "modelResponseSize": "Wielkość Odpowiedzi Modelu:",
         "userMessageSize": "Wielkość Wiadomości Użytkownika:",
         "iterations": "Liczba Iteracji:",
-        "calculateToMax": "Oblicz do maksymalnej wielkości promptu (bez przycinania)",
+        "calculateToMax": "Użyj maksymalnego rozmiaru (bez przycinania)",
         "sendingCost": "Koszt Wejścia (na 1M tokenów):",
         "modelCost": "Koszt Wyjścia (na 1M tokenów):",
         "cacheMissMultiplier": "Mnożnik Braku Pamięci Podręcznej:",

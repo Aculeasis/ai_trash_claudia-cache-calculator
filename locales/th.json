@@ -8,7 +8,7 @@
     "modelResponseSize": "ขนาดการตอบสนองของโมเดล:",
     "userMessageSize": "ขนาดข้อความผู้ใช้:",
     "iterations": "จำนวนรอบ:",
-    "calculateToMax": "คำนวณถึงขนาดพรอมต์สูงสุด (ไม่มีการตัด)",
+    "calculateToMax": "ใช้ขนาดสูงสุด (ไม่มีการตัด)",
     "sendingCost": "ต้นทุนอินพุต (ต่อ 1M โทเค็น):",
     "modelCost": "ต้นทุนเอาต์พุต (ต่อ 1M โทเค็น):",
     "cacheMissMultiplier": "ตัวคูณแคชพลาด:",

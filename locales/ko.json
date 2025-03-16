@@ -8,7 +8,7 @@
     "modelResponseSize": "모델 응답 크기:",
     "userMessageSize": "사용자 메시지 크기:",
     "iterations": "반복 횟수:",
-    "calculateToMax": "최대 프롬프트 크기까지 계산 (자르기 없음)",
+    "calculateToMax": "최대 크기 사용 (자르기 없음)",
     "sendingCost": "입력 비용 (100만 토큰당):",
     "modelCost": "출력 비용 (100만 토큰당):",
     "cacheMissMultiplier": "캐시 미스 승수:",
