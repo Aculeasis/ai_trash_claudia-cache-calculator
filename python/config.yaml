@@ -1,0 +1,11 @@
+promptSize: 2000
+maxPromptSize: 10000
+trimmedSize: 5000
+modelResponseSize: 250
+userMessageSize: 20
+iterations: 50
+sendingCost: 3
+modelCost: 15
+cacheMissMultiplier: 1.25
+cacheHitMultiplier: 0.1
+calculateToMax: true
